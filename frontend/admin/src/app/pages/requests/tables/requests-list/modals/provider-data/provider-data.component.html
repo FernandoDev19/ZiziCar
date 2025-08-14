@@ -1,0 +1,80 @@
+<div  class="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center" style="z-index: 6;">
+  <!-- Contenedor del Modal -->
+  <div class="bg-white rounded-lg shadow-lg w-lg w-full px-6 py-8 relative overflow-y-auto" style="max-height: 95%;">
+    <!-- Botón de Cerrar -->
+    <button style="z-index: 2;" class="absolute top-0 right-0 mt-4 mr-4 text-gray-500 hover:text-gray-700" (click)="toggleModal('sentTo')">
+      ✖️
+    </button>
+    <p-table
+    [value]="providerData"
+    [paginator]="true"
+    [rows]="5"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [rowsPerPageOptions]="[5, 10, 20]"
+    sortField="created_at"
+    [sortOrder]="-1"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 25%;">
+          N°
+        </th>
+        <th pSortableColumn="name" style="width: 25%;">
+          Nombre
+        </th>
+        <th pSortableColumn="phone" style="width: 25%;">
+          Celular
+        </th>
+        <!-- <th pSortableColumn="email" style="width: 25%;">
+          Email
+        </th> -->
+        <th pSortableColumn="country" style="width: 25%;">
+          País
+        </th>
+        <!-- <th pSortableColumn="state" style="width: 25%;">
+          Dpto/Estado
+        </th> -->
+        <th pSortableColumn="city" style="width: 25%;">
+          Ciudad
+        </th>
+        <th pSortableColumn="address" style="width: 25%;">
+          Dirección
+        </th>
+        <th pSortableColumn="cities_preferences" style="width: 25%;">
+          Preferencia de ciudades
+        </th>
+        <th pSortableColumn="percentage_of_rent" style="width: 25%;">
+          Porcentage de renta
+        </th>
+        <th pSortableColumn="allowed_payment_method" style="width: 25%;">
+          Metodo de pago
+        </th>
+        <!-- <th pSortableColumn="created_at" style="width: 25%;">
+          Fecha de creación
+        </th> -->
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-provider let-rowIndex="rowIndex">
+      @if(provider.nit != '92518164' && provider.nit != '1007599357' && provider.nit != '0009099922'){
+        <tr>
+          <td>{{ rowIndex + 1 }}</td>
+          <td>{{ provider.name }}</td>
+          <td>{{ provider.phone }}</td>
+          <!-- <td>{{ provider.email }}</td> -->
+          <td>{{ provider.country }}</td>
+          <!-- <td>{{ provider.state }}</td> -->
+          <td>{{ provider.city }}</td>
+          <td>{{ provider.address }}</td>
+          <td>{{ provider.cities_preferences }}</td>
+          <td>{{ provider.percentage_of_rent }}</td>
+          <td>{{ provider.allowed_payment_method }}</td>
+          <!-- <td>{{ provider.created_at }}</td> -->
+        </tr>
+      }
+    </ng-template>
+  </p-table>
+      <div class='flex justify-end'>
+        <button class="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded" (click)="toggleModal('sentTo')">Cerrar Modal</button>
+      </div>
+    </div>
+</div>

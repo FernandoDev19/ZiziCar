@@ -1,0 +1,322 @@
+<nav class="flex md:flex-col gap-3 md:mt-6 md:gap-0 text-sm" [ngClass]="{ 'items-center': isCollapsed }">
+  <a
+    [routerLink]="['/home']"
+    routerLinkActive="bg-gray-700 text-white"
+    class="block py-2.5 px-4 rounded hover:bg-gray-700"
+    title="Usuarios y Roles"
+    ><fa-icon class="md:inline-block block text-center md:text-start" [icon]="faHome"></fa-icon
+    ><span *ngIf="!isCollapsed"> Home</span>
+    <span class="md:hidden text-nowrap">Home</span>
+    </a
+  >
+  <div class="hidden md:flex items-center justify-center my-4">
+    <div class="border-t border-dotted flex-grow border-gray-400"></div>
+    <span class="mx-4 font-bold text-gray-400" title="Administración"
+      ><span *ngIf="!isCollapsed">Administración</span>
+      <span *ngIf="isCollapsed">Adm.</span></span
+    >
+    <div class="border-t border-dotted flex-grow border-gray-400"></div>
+  </div>
+  <a
+    [routerLink]="['/users-and-roles']"
+    *ngIf="roleService.isAdmin()"
+    routerLinkActive="bg-gray-700 text-white"
+    class="block py-2.5 px-4 rounded hover:bg-gray-700"
+    title="Usuarios y Roles"
+    ><fa-icon class="md:inline-block block text-center md:text-start" [icon]="faUsers"></fa-icon
+    ><span *ngIf="!isCollapsed"> Usuarios y Roles</span>
+    <span class="md:hidden text-nowrap">Usuarios</span></a
+  >
+  <a
+    [routerLink]="['/dashboard']"
+    routerLinkActive="bg-gray-700 text-white"
+    class="block py-2.5 px-4 rounded hover:bg-gray-700"
+    title="Panel de control"
+    ><fa-icon class="md:inline-block block text-center md:text-start" [icon]="faDashboard"></fa-icon>
+    <span *ngIf="!isCollapsed"> Dashboard</span>
+    <span class="md:hidden text-nowrap">Dashboard</span></a
+  >
+  <!-- <button
+    (click)="toggleTables()"
+    [ngClass]="{ 'w-full': !isCollapsed }"
+    class="flex items-center justify-between py-2.5 px-4 rounded hover:bg-gray-700 text-left"
+  >
+    <span class="flex items-center">
+      <fa-icon class="md:inline-block block text-center md:text-start" [icon]="faCaretDown" *ngIf="!isTablesCollapsed"></fa-icon>
+      <fa-icon class="md:inline-block block text-center md:text-start" [icon]="faCaretUp" *ngIf="isTablesCollapsed"></fa-icon>
+      <span class="ml-2" *ngIf="!isCollapsed"> Listas</span>
+    </span>
+  </button>
+
+  <div *ngIf="isTablesCollapsed" class="ml-4">
+  </div> -->
+
+  <div class="hidden md:flex items-center justify-center my-4" *ngIf="roleService.isAdmin()">
+    <div class="border-t border-dotted flex-grow border-gray-400"></div>
+    <span class="mx-4 font-bold text-gray-400" title="Aliados"
+      ><span *ngIf="!isCollapsed">Aliados</span>
+      <span *ngIf="isCollapsed">Ali.</span></span
+    >
+    <div class="border-t border-dotted flex-grow border-gray-400"></div>
+  </div>
+
+  <a
+    [routerLink]="['/providers']"
+    *ngIf="roleService.isAdmin()"
+    routerLinkActive="bg-gray-700 text-white"
+    class="block py-2 px-4 rounded hover:bg-gray-600"
+    title="Lista de Aliados"
+  >
+    <fa-icon class="md:inline-block block text-center md:text-start" [icon]="faBuilding"></fa-icon>
+    <span *ngIf="!isCollapsed"> Aliados</span>
+    <span class="md:hidden text-nowrap">Aliados</span>
+  </a>
+
+  <div class="hidden md:flex items-center justify-center my-4">
+    <div class="border-t border-dotted flex-grow border-gray-400"></div>
+    <span class="mx-4 font-bold text-gray-400" title="Operación"
+      ><span *ngIf="!isCollapsed">Operación</span>
+      <span *ngIf="isCollapsed">Op.</span></span
+    >
+    <div class="border-t border-dotted flex-grow border-gray-400"></div>
+  </div>
+  <a
+    [routerLink]="['/requests']"
+    routerLinkActive="bg-gray-700 text-white"
+    class="block py-2 px-4 rounded hover:bg-gray-600"
+    title="Lista de Solicitudes"
+  >
+    <fa-icon class="md:inline-block block text-center md:text-start" [icon]="faBriefcase"></fa-icon>
+    <span *ngIf="!isCollapsed"> Bolsa de oportunidades</span>
+    <span class="md:hidden text-nowrap">Oportunidades</span>
+  </a>
+
+  <a
+  routerLink="/newsletters"
+  *ngIf="roleService.isAdmin()"
+  routerLinkActive="bg-gray-700 text-white"
+  class="block py-2 px-4 rounded hover:bg-gray-600"
+  title="Boletines"
+>
+  <fa-icon class="md:inline-block block text-center md:text-start" [icon]="faNewspaper"></fa-icon>
+  <span *ngIf="!isCollapsed"> Boletines</span>
+</a>
+
+  <a
+    [routerLink]="['/quotes']"
+    routerLinkActive="bg-gray-700 text-white"
+    class="block py-2 px-4 rounded hover:bg-gray-600"
+    title="Lista de Cotizaciones"
+  >
+    <fa-icon class="md:inline-block block text-center md:text-start" [icon]="faClipboardList"></fa-icon>
+    <span *ngIf="!isCollapsed"> Cotizaciones</span>
+    <span class="md:hidden text-nowrap">Cotizaciones</span>
+  </a>
+
+  <a
+    [routerLink]="['/reservations']"
+    routerLinkActive="bg-gray-700 text-white"
+    class="block py-2 px-4 rounded hover:bg-gray-600"
+    title="Lista de reservas"
+  >
+    <fa-icon class="md:inline-block block text-center md:text-start" [icon]="faFileAlt"></fa-icon>
+    <span *ngIf="!isCollapsed"> Reservas</span>
+    <span class="md:hidden text-nowrap">Reservas</span>
+  </a>
+
+  <a
+    [routerLink]="['/customers']"
+    *ngIf="roleService.isAdmin()"
+    routerLinkActive="bg-gray-700 text-white"
+    class="block py-2 px-4 rounded hover:bg-gray-600"
+    title="Lista de Clientes"
+  >
+    <fa-icon class="md:inline-block block text-center md:text-start" [icon]="faUser"></fa-icon>
+    <span *ngIf="!isCollapsed"> Clientes</span>
+    <span class="md:hidden text-nowrap">Clientes</span>
+  </a>
+
+  <a
+    routerLinkActive="bg-gray-700 text-white"
+    *ngIf="roleService.isProvider()"
+    class="block py-2.5 px-4 rounded hover:bg-gray-700"
+    title="Reportes"
+    ><fa-icon class="md:inline-block block text-center md:text-start" [icon]="faMailBulk"></fa-icon>
+    <span *ngIf="!isCollapsed"> Pendientes de entrega</span>
+    <span class="md:hidden text-nowrap">Pendientes entrega</span></a
+  >
+
+  <a
+    routerLinkActive="bg-gray-700 text-white"
+    *ngIf="roleService.isProvider()"
+    class="block py-2.5 px-4 rounded hover:bg-gray-700"
+    title="Reportes"
+    ><fa-icon class="md:inline-block block text-center md:text-start" [icon]="faMailReplyAll"></fa-icon>
+    <span *ngIf="!isCollapsed"> Pendientes de devolución</span>
+    <span class="md:hidden text-nowrap">Pendientes devolución</span></a
+  >
+  <div class="hidden md:flex items-center justify-center my-4" *ngIf="roleService.isAdmin()">
+    <div class="border-t border-dotted flex-grow border-gray-400"></div>
+    <span class="mx-4 font-bold text-gray-400" title="Web"
+      ><span>Web</span></span
+    >
+    <div class="border-t border-dotted flex-grow border-gray-400"></div>
+  </div>
+  <a
+    *ngIf="roleService.isAdmin()"
+    routerLinkActive="bg-gray-700 text-white"
+    class="block py-2 px-4 rounded hover:bg-gray-600"
+    title="Tarjetas"
+  >
+    <fa-icon class="md:inline-block block text-center md:text-start" [icon]="faCards"></fa-icon>
+    <span *ngIf="!isCollapsed"> Tarjetas</span>
+    <span class="md:hidden text-nowrap">Tarjetas</span>
+  </a>
+
+  <a
+    *ngIf="roleService.isAdmin()"
+    routerLinkActive="bg-gray-700 text-white"
+    class="block py-2 px-4 rounded hover:bg-gray-600"
+    title="Tarjetas"
+  >
+    <fa-icon class="md:inline-block block text-center md:text-start" [icon]="faBanners"></fa-icon>
+    <span *ngIf="!isCollapsed"> Banners</span>
+    <span class="md:hidden text-nowrap">Banners</span>
+  </a>
+
+  <a
+    *ngIf="roleService.isAdmin()"
+    routerLinkActive="bg-gray-700 text-white"
+    class="block py-2 px-4 rounded hover:bg-gray-600"
+    title="Correos"
+  >
+    <fa-icon class="md:inline-block block text-center md:text-start" [icon]="faEnvelope"></fa-icon>
+    <span *ngIf="!isCollapsed"> Correos</span>
+    <span class="md:hidden text-nowrap">Correos</span>
+  </a>
+
+  <a
+    routerLinkActive="bg-gray-700 text-white"
+    *ngIf="roleService.isAdmin()"
+    class="block py-2 px-4 rounded hover:bg-gray-600"
+    title="Blog"
+  >
+    <fa-icon class="md:inline-block block text-center md:text-start" [icon]="faBlog"></fa-icon>
+    <span *ngIf="!isCollapsed"> Blog</span>
+    <span class="md:hidden text-nowrap">Blog</span>
+  </a>
+
+  <a
+    routerLinkActive="bg-gray-700 text-white"
+    *ngIf="roleService.isAdmin()"
+    class="block py-2 px-4 rounded hover:bg-gray-600"
+    title="Preguntas frecuentes"
+  >
+    <fa-icon class="md:inline-block block text-center md:text-start" [icon]="faQuestionCircle"></fa-icon>
+    <span *ngIf="!isCollapsed"> Pregunstas frecuentes</span>
+    <span class="md:hidden text-nowrap">FAQ</span>
+  </a>
+
+  <a
+    routerLinkActive="bg-gray-700 text-white"
+    *ngIf="roleService.isAdmin()"
+    class="block py-2 px-4 rounded hover:bg-gray-600"
+    title="Zizicar cultura"
+  >
+    <fa-icon class="md:inline-block block text-center md:text-start" [icon]="faBook"></fa-icon>
+    <span *ngIf="!isCollapsed"> ZiziCar Cultura</span>
+    <span class="md:hidden text-nowrap">ZiziCar Cultura</span>
+  </a>
+
+  <div class="hidden md:flex items-center justify-center my-4">
+    <div class="border-t border-dotted flex-grow border-gray-400"></div>
+    <span class="mx-4 font-bold text-gray-400" title="Datos estadisticos"
+      ><span *ngIf="!isCollapsed">Datos estadisticos</span>
+      <span *ngIf="isCollapsed">Est.</span></span
+    >
+    <div class="border-t border-dotted flex-grow border-gray-400"></div>
+  </div>
+
+  <a
+    routerLinkActive="bg-gray-700 text-white"
+    class="block py-2.5 px-4 rounded hover:bg-gray-700"
+    title="Datos estadisticos"
+    ><fa-icon class="md:inline-block block text-center md:text-start" [icon]="faChartLine"></fa-icon>
+    <span *ngIf="!isCollapsed"> Datos estadisticos</span>
+    <span class="md:hidden text-nowrap">Estadisticas</span></a
+  >
+
+  <a
+    [routerLink]="['/sales']"
+    routerLinkActive="bg-gray-700 text-white"
+    class="block py-2 px-4 rounded hover:bg-gray-600"
+    title="Lista de Ventas"
+  >
+    <fa-icon class="md:inline-block block text-center md:text-start" [icon]="faDollarSign"></fa-icon>
+    <span *ngIf="!isCollapsed"> Ventas</span>
+    <span class="md:hidden text-nowrap">Ventas</span>
+  </a>
+
+  <a
+    [routerLink]="['/reports']"
+    routerLinkActive="bg-gray-700 text-white"
+    class="block py-2.5 px-4 rounded hover:bg-gray-700"
+    title="Reportes"
+    ><fa-icon class="md:inline-block block text-center md:text-start" [icon]="faChartLine"></fa-icon>
+    <span *ngIf="!isCollapsed"> Reportes</span>
+    <span class="md:hidden text-nowrap">Reportes</span></a
+  >
+
+  <div class="hidden md:flex items-center justify-center my-4" *ngIf="roleService.isAdmin()">
+    <div class="border-t border-dotted flex-grow border-gray-400"></div>
+    <span class="mx-4 font-bold text-gray-400" title="Operativo"
+      ><span *ngIf="!isCollapsed">Operativo</span>
+      <span *ngIf="isCollapsed">Ope.</span></span
+    >
+    <div class="border-t border-dotted flex-grow border-gray-400"></div>
+  </div>
+
+  <a
+    [routerLink]="['/reports']"
+    *ngIf="roleService.isAdmin()"
+    routerLinkActive="bg-gray-700 text-white"
+    class="block py-2.5 px-4 rounded hover:bg-gray-700"
+    title="Gamas"
+  >
+    <fa-icon class="md:inline-block block text-center md:text-start" [icon]="faGammas"></fa-icon>
+    <span *ngIf="!isCollapsed"> Gamas</span>
+    <span class="md:hidden text-nowrap">Gamas</span></a
+  >
+
+  <a
+    routerLink="/vehicles"
+    routerLinkActive="bg-gray-700 text-white"
+    *ngIf="roleService.isAdmin()"
+    class="block py-2.5 px-4 rounded hover:bg-gray-700"
+    title="Autos"
+  >
+    <fa-icon class="md:inline-block block text-center md:text-start" [icon]="faCar"></fa-icon>
+    <span *ngIf="!isCollapsed"> Autos</span>
+    <span class="md:hidden text-nowrap">Autos</span></a
+  >
+
+  <div class="hidden md:flex items-center justify-center my-4">
+    <div class="border-t border-dotted flex-grow border-gray-400"></div>
+    <span class="mx-4 font-bold text-gray-400" title="Operativo"
+      >Otros</span
+    >
+    <div class="border-t border-dotted flex-grow border-gray-400"></div>
+  </div>
+
+  <a
+  routerLink="/help"
+  routerLinkActive="bg-gray-700 text-white"
+  class="block py-2.5 px-4 rounded hover:bg-gray-700"
+  title="Ayuda"
+>
+  <fa-icon class="md:inline-block block text-center md:text-start" [icon]="faHelp"></fa-icon>
+  <span *ngIf="!isCollapsed"> Ayuda</span>
+  <span class="md:hidden text-nowrap">Ayuda</span></a
+>
+
+</nav>

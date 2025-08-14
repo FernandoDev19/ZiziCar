@@ -1,0 +1,73 @@
+<div class="flex bg-gray-100 overflow-hidden" style="max-height: 100vh;">
+  <!-- Sidebar -->
+  <app-sidebar></app-sidebar>
+  <!-- Main content area -->
+  <div class="flex-1 flex flex-col h-full overflow-auto" style="max-height: 100vh;">
+    <div class="sticky top-0" style="z-index: 2;;">
+      <app-header></app-header>
+      <app-sidebar-horizontal></app-sidebar-horizontal>
+    </div>
+    <!-- Main content -->
+    <main class="flex-1 bg-gray-100 p-6">
+      <div class="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg">
+        <!-- Header -->
+        <div class="flex items-center gap-4 border-b pb-4 mb-4">
+          <img
+            class="h-24 w-24 rounded-full border-2 border-gray-300"
+            src="https://via.placeholder.com/150"
+            alt="User Avatar"
+          />
+          <div>
+            <h1 class="text-2xl font-semibold text-gray-800">Juan Pérez</h1>
+            <p class="text-gray-500">Admin</p>
+            <button class="mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+              Editar perfil
+            </button>
+          </div>
+        </div>
+
+        <!-- Información Personal -->
+        <div class="mb-6">
+          <h2 class="text-lg font-semibold text-gray-800">Información Personal</h2>
+          <div class="grid grid-cols-2 gap-4 mt-4">
+            <div>
+              <p class="text-sm font-semibold text-gray-500">Nombre completo:</p>
+              <p class="text-gray-800">Juan Pérez</p>
+            </div>
+            <div>
+              <p class="text-sm font-semibold text-gray-500">Correo electrónico:</p>
+              <p class="text-gray-800">juan.perez{{'@'}}example.com</p>
+            </div>
+            <div>
+              <p class="text-sm font-semibold text-gray-500">Teléfono:</p>
+              <p class="text-gray-800">+57 300 123 4567</p>
+            </div>
+            <div>
+              <p class="text-sm font-semibold text-gray-500">Dirección:</p>
+              <p class="text-gray-800">Calle 123 #45-67, Bogotá</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Seguridad -->
+        <div>
+          <h2 class="text-lg font-semibold text-gray-800">Seguridad</h2>
+          <ul class="mt-4 space-y-3">
+            <li>
+              <button class="block w-full text-left px-4 py-2 bg-gray-100 text-gray-700 rounded hover:bg-gray-200">
+                Cambiar contraseña
+              </button>
+            </li>
+            <li>
+              <button class="block w-full text-left px-4 py-2 bg-gray-100 text-gray-700 rounded hover:bg-gray-200">
+                Activar autenticación de dos factores
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </main>
+    <app-footer></app-footer>
+  </div>
+</div>

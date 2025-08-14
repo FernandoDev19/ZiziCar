@@ -1,0 +1,121 @@
+<div class="tab-menu">
+  <ul class="flex border-b">
+    <li
+      *ngFor="let item of items; let i = index"
+      (click)="setActiveTab(i)"
+      [class.active]="activeItem === i"
+      class="cursor-pointer px-4 py-2 -mb-px text-gray-600 border-b-2 border-transparent hover:text-blue-700"
+    >
+      {{ item.label }}
+    </li>
+  </ul>
+
+  <div class="p-4">
+    <h1 class="text-gray-700 text-lg font-semibold mb-5">Lista de clientes</h1>
+    <p-table
+        [value]="activeItem === 1 ? customers : customersWithoutConfirmingPayment"
+        #dtRequests
+        [paginator]="true"
+        [rows]="5"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        sortField="created_at"
+        [globalFilterFields]="globalFields"
+        [sortOrder]="-1"
+      >
+    <ng-template pTemplate="caption">
+      <div class="p-inputgroup">
+        <span class="p-inputgroup-addon">
+          <i class="pi pi-search"></i>
+        </span>
+        <input
+          pInputText
+          type="text"
+          (input)="onSearch($event, dtRequests)"
+          placeholder="Search keyword"
+        />
+      </div>
+    </ng-template>
+        <ng-template pTemplate="header" class="text-gray-700">
+          <tr>
+            <th class="w-25%">N°</th>
+            <th class="w-25%">Solicitud</th>
+            <th class="w-25%">Cotizacion</th>
+            <th pSortableColumn="identification" class="w-25%">N° Identidad</th>
+            <th pSortableColumn="credit_card_holder_name" class="w-25%">Nombre titular<br />t. crédito</th>
+            <th pSortableColumn="gender" class="w-25%">Sexo</th>
+            <th pSortableColumn="birthdate" class="w-25%">Fecha de nacimiento</th>
+            <th pSortableColumn="email" class="w-25%">Email</th>
+            <th pSortableColumn="phone" class="w-25%">N° Celular</th>
+            <th pSortableColumn="country" class="w-25%">País</th>
+            <th pSortableColumn="city" class="w-25%">Ciudad</th>
+            <th pSortableColumn="address" class="w-25%">Dirección</th>
+            <th class="w-25%">Confirmar<br />pago</th>
+            <th pSortableColumn="created_at" class="w-25%">Creado<br />a las</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-customer let-rowIndex="rowIndex" class="text-gray-600">
+          <tr [ngClass]="{ 'bg-red-100': customer.deleted_at != null, 'bg-green-100': customer.confirmed_payment }">
+            <td>{{rowIndex + 1}}</td>
+            <td>
+              <button type="button" (click)="toggleModal(customer.request_id, '', 'customer')" class="py-3 px-5 bg-green-500 text-white rounded-md">Solicitud</button>
+            </td>
+            <td>
+              <button type="button" (click)="toggleModal(customer.quote_id, customer.phone, 'quote')" class="py-3 px-5 bg-green-500 text-white rounded-md">Rentador</button>
+            </td>
+            <td>
+              {{ customer.identification }}
+            </td>
+            <td>
+              {{ customer.credit_card_holder_name }}
+            </td>
+            <td>
+              {{ customer.gender }}
+            </td>
+            <td>
+              {{ customer.birthdate | date:'dd/MM/yyyy' }}
+            </td>
+            <td>
+              {{ customer.email }}
+            </td>
+            <td>
+              {{ customer.phone }}
+            </td>
+            <td>
+              {{ customer.country }}
+            </td>
+            <td>
+              {{ customer.city }}
+            </td>
+            <td>
+              {{ customer.address }}
+            </td>
+            <td>
+              <button type="button" [ngClass]="{ 'bg-gray-300': customer.confirmed_payment || customer.deleted_at != null, 'bg-green-500': !customer.confirmed_payment && customer.deleted_at === null }" [disabled]="customer.confirmed_payment || customer.deleted_at != null" (click)="sendConfirmation(customer.id, customer, customer.request_id, customer.quote_id)" class="py-3 px-5 text-white rounded-md">Confirmar</button>
+            </td>
+            <td>
+              {{ customer.created_at | date:'dd/MM/yyyy HH:mm' }}
+            </td>
+            <td>
+              <button type="button" [ngClass]="{ 'text-gray-300': customer.confirmed_payment || customer.deleted_at != null, 'text-red-400 hover:text-red-500': customer.deleted_at === null && !customer.confirmed_payment }" [disabled]="customer.deleted_at != null || customer.confirmed_payment" (click)="deleteCustomer(customer.id)" class="py-3 px-5 rounded-md"><fa-icon [icon]="faTrash"></fa-icon></button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+  </div>
+</div>
+
+<div *ngIf="isModalVisible" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center" style="z-index: 5;">
+  <!-- Contenedor del Modal -->
+  <div class="bg-white rounded-lg shadow-lg max-w-lg w-full p-6 relative">
+    <!-- Botón de Cerrar -->
+    <button class="absolute top-0 right-0 mt-4 mr-4 text-gray-500 hover:text-gray-700" (click)="toggleModal()">
+      ✖️
+    </button>
+    <!-- Contenido del Modal -->
+    <h2 class="text-2xl font-semibold mb-4">{{ dataModal.title }}</h2>
+    <ul class="mb-4">
+      <li *ngFor="let paragraph of dataModal.paragraphs; let index = index"><strong>{{dataModal.subtitles[index]}}</strong> {{paragraph}}</li>
+    </ul>
+    <button class="bg-blue-500 text-white px-4 py-2 rounded" (click)="toggleModal()">Cerrar Modal</button>
+  </div>
+</div>

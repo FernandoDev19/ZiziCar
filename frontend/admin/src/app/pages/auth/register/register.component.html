@@ -1,0 +1,295 @@
+<div
+  id="contenedor-vista-completa"
+  class="flex flex-col justify-between w-full"
+>
+  <app-auth-header></app-auth-header>
+
+  <div
+    id="contenido-principal"
+    class="container p-0 my-20 rounded-xl sm:flex justify-center mx-12 flex overflow-hidden"
+  >
+    <div class="flex flex-col justify-center">
+      <div class="flex flex-col justify-center text-center mb-6">
+        <h1 class="font-bold text-4xl mb-3">Registrarse</h1>
+        <p class="text-gray-500 text-lg">
+          Si ya eres aliado de Tu Repuesto Ya Ingresa tu correo y contraseña
+        </p>
+      </div>
+
+      <form class="mb-5" [formGroup]="registerForm">
+        <div class="mb-5">
+          <div class="flex">
+            <span
+              class="inline-flex items-center px-3 border border-r-0 rounded-l-md bg-gray-200"
+            >
+              <i class="fas fa-user"></i>
+            </span>
+            <input
+              formControlName="name"
+              id="name"
+              type="text"
+              placeholder="Nombre de Agencia*"
+              [ngClass]="{
+                'border-red-500':
+                  registerForm.get('name')?.invalid &&
+                  registerForm.get('name')?.touched,
+                'border-green-300':
+                  registerForm.get('name')?.valid &&
+                  registerForm.get('name')?.touched
+
+              }"
+              class="form-input w-full border border-gray-200 rounded-r-md py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              maxlength="30"
+            />
+          </div>
+          @if (registerForm.get('name')?.invalid &&
+          registerForm.get('name')?.touched) {
+          <div>
+            @if (registerForm.get('name')?.errors?.['required']) {
+            <small class="text-red-500">El Nombre es requerido.</small>
+            } @else if (registerForm.get('name')?.errors?.['maxlength']){
+            <small class="text-red-500"
+              >Debe puede contener mas de 30 carácteres.</small
+            >
+            }
+          </div>
+          }
+        </div>
+
+        <div class="mb-5">
+          <div class="flex">
+            <span
+              class="inline-flex items-center px-3 border border-r-0 rounded-l-md bg-gray-200"
+            >
+              <i class="fas fa-id-card"></i>
+            </span>
+            <input
+              formControlName="nit"
+              id="nit"
+              type="text"
+              placeholder="NIT*"
+              [ngClass]="{
+                'border-red-500': registerForm.get('nit')?.invalid && registerForm.get('nit')?.touched,
+                'border-green-300': registerForm.get('nit')?.valid && registerForm.get('nit')?.touched
+              }"
+              class="form-input w-full border rounded-r-md py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              maxlength="15"
+            />
+          </div>
+          @if (registerForm.get('nit')?.invalid && registerForm.get('nit')?.touched) {
+          <div>
+            @if (registerForm.get('nit')?.errors?.['required']) {
+              <small class="text-red-500">El NIT es requerido.</small>
+            }@else if(registerForm.get('nit')?.errors?.['minlength']){
+              <small class="text-red-500">Debe contener mínimo 8 dígitos.</small>
+            }@else if (registerForm.get('nit')?.errors?.['maxlength']){
+              <small class="text-red-500">No puede contener mas de 15 dígitos.</small>
+            }@else if (registerForm.get('nit')?.errors?.['pattern']){
+            <small class="text-red-500">El NIT debe contener entre 8 y 15 dígitos, sin puntos ni comas,<br> se permite el uso de guíones (-) seguido de mímino un número o dos.</small>
+            }
+          </div>
+          }
+        </div>
+
+        <div class="mb-5">
+          <div class="flex">
+            <span
+              class="inline-flex items-center px-3 border border-r-0 rounded-l-md bg-gray-200"
+            >
+              <i class="fas fa-phone"></i>
+            </span>
+            <input
+              formControlName="phone"
+              id="phone"
+              type="text"
+              placeholder="Número de celular*"
+              [ngClass]="{
+                'border-red-500':
+                  registerForm.get('phone')?.invalid &&
+                  registerForm.get('phone')?.touched,
+                'border-green-300':
+                  registerForm.get('phone')?.valid &&
+                  registerForm.get('phone')?.touched
+
+              }"
+              class="form-input w-full border border-gray-200 rounded-r-md py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              maxlength="11"
+            />
+          </div>
+          @if (registerForm.get('phone')?.invalid &&
+          registerForm.get('phone')?.touched) {
+          <div>
+            @if (registerForm.get('phone')?.errors?.['required']) {
+            <small class="text-red-500"
+              >El Número de celular es requerido.</small
+            >
+            }@else if(registerForm.get('phone')?.errors?.['minlength']){
+            <small class="text-red-500">
+              Debe contener mínimo 8 dígitos.
+            </small>
+            }@else if (registerForm.get('phone')?.errors?.['maxlength']){
+            <small class="text-red-500"
+              >No puede contener mas de 11 dígitos.</small
+            >
+            }@else if (registerForm.get('phone')?.errors?.['pattern']){
+            <small class="text-red-500">
+              El celular debe contener entre 8 y 11 dígitos, no se permiten
+              letras o caracteres especiales.
+            </small>
+            }
+          </div>
+          }
+        </div>
+
+        <div class="mb-5">
+          <div class="flex">
+            <span
+              class="inline-flex font-extrabold items-center px-3 border border-r-0 rounded-l-md bg-gray-200"
+            >
+              {{ "@" }}
+            </span>
+            <input
+              formControlName="email"
+              id="email"
+              type="text"
+              [ngClass]="{
+                'border-red-500':
+                  registerForm.get('email')?.invalid &&
+                  registerForm.get('email')?.touched,
+                'border-green-300':
+                  registerForm.get('email')?.valid &&
+                  registerForm.get('email')?.touched
+
+              }"
+              placeholder="Correo electrónico*"
+              class="form-input w-full border rounded-r-md border-gray-200 py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          @if (registerForm.get('email')?.invalid &&
+          registerForm.get('email')?.touched) {
+          <div>
+            @if (registerForm.get('email')?.errors?.['required']) {
+            <small class="text-red-500"
+              >El correo electrónico es requerido.</small
+            >
+            }@else if(registerForm.get('email')?.errors?.['email']){
+            <small class="text-red-500">
+              Debe ser una dirección de correo electrónico válido.
+            </small>
+            }@else if(registerForm.get('email')?.errors?.['maxlength']){
+              <small class="text-red-500">
+                El correo es demasiado extenso.
+              </small>
+            }
+          </div>
+          }
+        </div>
+
+        <div class="mb-5">
+          <div class="flex">
+            <span
+              class="inline-flex items-center px-3 border border-r-0 rounded-l-md bg-gray-200"
+            >
+              <i class="fas fa-key"></i>
+            </span>
+            <input
+              #passwordInput
+              formControlName="password"
+              id="password"
+              type="password"
+              placeholder="Contraseña*"
+              [ngClass]="{
+                'border-red-500':
+                  registerForm.get('password')?.invalid &&
+                  registerForm.get('password')?.touched,
+                'border-green-300':
+                  registerForm.get('password')?.valid &&
+                  registerForm.get('password')?.touched
+              }"
+              class="form-input w-full border border-gray-200 py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <span
+              id="spanButton"
+              #spanButton
+              class="inline-flex items-center px-3 bg-white border border-l-0 rounded-r-md cursor-pointer"
+              (click)="showPassword(1)"
+              [title]="spanButtonTitle"
+            >
+              <i [class]="iconEye1"></i>
+            </span>
+          </div>
+
+          @if (registerForm.get('password')?.invalid &&
+          registerForm.get('password')?.touched) {
+          <div>
+            @if (registerForm.get('password')?.errors?.['required']) {
+            <small class="text-red-500">La contraseña es obligatoria.</small>
+            }@else if (registerForm.get('password')?.errors?.['minlength']) {
+            <small class="text-red-500"
+              >La contraseña debe tener un mínimo de 8 caracteres.</small
+            >
+            }@else if(registerForm.get('password')?.errors?.['pattern']){
+            <small class="text-red-500"
+              >La contraseña debe tener mínimo una mayúscula, una minúscula y un numero.</small
+            >
+            }
+          </div>
+          }
+        </div>
+
+        <div class="mb-5">
+          <div class="flex">
+            <span
+              class="inline-flex items-center px-3 border border-r-0 rounded-l-md bg-gray-200"
+            >
+              <i class="fas fa-key"></i>
+            </span>
+            <input
+              #confirmPassword
+              id="confirm-password"
+              type="password"
+              placeholder="Confirmar Contraseña"
+              [ngClass]="{
+                'border-red-500':
+                  !isCPasswordEqualToPassword && confirmPassword.value != '',
+                'border-green-300':
+                  isCPasswordEqualToPassword && confirmPassword.value != ''
+              }"
+              class="form-input w-full border border-gray-200 py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              (input)="comparePassword($event)"
+            />
+            <span
+              id="spanButton2"
+              #spanButton2
+              class="inline-flex items-center px-3 bg-white border border-l-0 rounded-r-md cursor-pointer"
+              (click)="showPassword(2)"
+              [title]="spanButtonTitle2"
+            >
+              <i [class]="iconEye2"></i>
+            </span>
+          </div>
+
+          @if (!isCPasswordEqualToPassword && confirmPassword.value != '') {
+          <small class="text-red-500">Las contraseñas no coinciden.</small>
+          }
+        </div>
+
+        <button
+          class="btn btn-lg bg-blue-500 text-white w-full py-3 rounded-md"
+          [disabled]="registerForm.invalid"
+        >
+          Registrarse
+        </button>
+      </form>
+
+      <p class="text-gray-500 mb-3">
+        Ya estás registrado?
+        <a class="text-blue-500 font-bold" routerLink="/auth/login">
+          Inicia sesión
+        </a>
+      </p>
+    </div>
+  </div>
+
+  <app-footer></app-footer>
+</div>

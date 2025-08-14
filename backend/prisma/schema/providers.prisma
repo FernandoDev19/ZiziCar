@@ -1,0 +1,28 @@
+model Provider {
+  id                       String                     @id @default(uuid())
+  name                     String
+  nit                      String                     @unique(map: "nit") @db.VarChar(20)
+  phone                    String                     @db.VarChar(16)
+  email                    String
+  country_id               Int
+  state_id                 Int?
+  city_id                  Int?
+  address                  String
+  cities_preferences       String?                    @db.LongText
+  percentage_of_rent       Int
+  allowed_payment_method   String                     @db.VarChar(100)
+  created_at               DateTime                   @default(now())
+  updated_at               DateTime                   @updatedAt
+  ZIC_ADM_GLOBAL_CITIES    ZIC_ADM_GLOBAL_CITIES?     @relation(fields: [city_id], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "fs_city_of_provider")
+  ZIC_ADM_COUNTRIES        ZIC_ADM_COUNTRIES          @relation(fields: [country_id], references: [id], onUpdate: Restrict, map: "fs_country_of_provider")
+  ZIC_ADM_STATES           ZIC_ADM_STATES?            @relation(fields: [state_id], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "fs_state_of_provider")
+  ZIC_ADM_QUOTES           ZIC_ADM_QUOTES[]
+  ZIC_ADM_REQUEST_PROVIDER ZIC_ADM_REQUEST_PROVIDER[]
+  users                    User[]
+  ZIC_REQ_ANSWERS          ZIC_REQ_ANSWERS[]
+
+  @@index([city_id], map: "fs_city_of_provider")
+  @@index([country_id], map: "fs_country_of_provider")
+  @@index([state_id], map: "fs_state_of_provider")
+  @@map("ZIC_ADM_PROVIDERS")
+}

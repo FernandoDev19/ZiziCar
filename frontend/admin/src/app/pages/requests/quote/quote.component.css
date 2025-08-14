@@ -1,0 +1,12 @@
+.container {
+  max-width: 1200px;
+}
+form input,
+form textarea {
+  transition: border-color 0.3s ease;
+}
+form input:focus,
+form textarea:focus {
+  border-color: #2563eb;
+  outline: none;
+}

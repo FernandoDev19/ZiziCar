@@ -1,0 +1,58 @@
+<div class="flex flex-col w-full">
+  <div class="md:hidden w-full flex justify-center mb-4">
+    <button
+      class="p-3 text-white bg-blue-500 hover:bg-blue-400 rounded-xl"
+      type="button"
+      (click)="toggleCollapse()"
+    >
+      Ver/Ocultar solicitud
+    </button>
+  </div>
+
+  <div #detailsRequest class="w-full hidden transition-all duration-200 ease-in-out md:block text-gray-600 space-y-4 md:space-y-6">
+    <h1 class="text-3xl text-gray-600 font-extrabold mb-6">
+      Detalles de la solicitud
+    </h1>
+    <div class="space-y-4">
+      <h2 class="text-xl font-bold">Datos de la gama</h2>
+      <p><strong>Gama:</strong> {{ dataForRequestInformation.gamma }}</p>
+      <p>
+        <strong>Transmisión</strong> {{ dataForRequestInformation.transmission
+        }}
+      </p>
+      <p>
+        <strong>Días de renta:</strong> {{
+        dataForRequestInformation.days_of_rent }}
+      </p>
+    </div>
+    <div class="space-y-4">
+      <h2 class="text-xl font-bold">Datos de la reserva</h2>
+      <p>
+        <strong>Ciudad de entrega:</strong>
+        {{ dataForRequestInformation.entry_city + ' ' +
+        dataForRequestInformation.receive_at_airport }}
+      </p>
+      <p>
+        <strong>Fecha y hora de entrega:</strong>
+        {{ dataForRequestInformation.entry_date + ' a la/s ' +
+        dataForRequestInformation.entry_time }}
+      </p>
+      <hr class="my-2" />
+      <p>
+        <strong>Ciudad de devolución:</strong>
+        {{ dataForRequestInformation.devolution_city + ' ' +
+        dataForRequestInformation.returns_at_airport }}
+      </p>
+      <p>
+        <strong>Fecha y hora de devolución:</strong>
+        {{ dataForRequestInformation.devolution_date + ' a la/s ' +
+        dataForRequestInformation.devolution_time }}
+      </p>
+    </div>
+    <div class="space-y-4">
+      <h2 class="text-xl font-bold">Comentarios</h2>
+      <p>{{ dataForRequestInformation.comments }}</p>
+    </div>
+  </div>
+</div>
+

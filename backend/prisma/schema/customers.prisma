@@ -1,0 +1,23 @@
+model ZIC_ADM_CUSTOMERS {
+  id                      String         @id @default(dbgenerated("(uuid())")) @db.VarChar(199)
+  request_id              String         @db.VarChar(199)
+  quote_id                String         @db.VarChar(199)
+  identification          String         @db.VarChar(20)
+  credit_card_holder_name String         @db.VarChar(40)
+  gender                  String?        @db.VarChar(20)
+  birthdate               DateTime?      @db.DateTime(0)
+  email                   String?        @db.VarChar(199)
+  phone                   String         @db.VarChar(16)
+  country                 String         @db.VarChar(50)
+  city                    String         @db.VarChar(50)
+  address                 String         @db.VarChar(35)
+  confirmed_payment       Boolean        @default(false)
+  updated_at              DateTime?      @default(now()) @db.Timestamp(0)
+  created_at              DateTime?      @default(now()) @db.Timestamp(0)
+  deleted_at              DateTime?      @db.DateTime(0)
+  ZIC_ADM_QUOTES          ZIC_ADM_QUOTES @relation(fields: [quote_id], references: [id], onDelete: Cascade, map: "fs_quotes_customers")
+  ZIC_REQ_REQUESTS        Request        @relation(fields: [request_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "fs_requests_customers")
+
+  @@index([request_id], map: "fs_requests_customers")
+  @@index([quote_id], map: "fs_quotes_customers")
+}

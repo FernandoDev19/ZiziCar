@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --p-primary-color: #f03a8c !important;
+  --p-primary-hover-color: #eb1074 !important;
+}
+
+@font-face {
+  font-family: 'mulish-regular';
+  src: url('../public/fonts/mulish/Mulish-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'mulish-medium-italic';
+  src: url('../public/fonts/mulish/Mulish-MediumItalic.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'mulish-extrabold-italic';
+  src: url('../public/fonts/mulish/Mulish-BlackItalic.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: 'mulish-regular', sans-serif;
+}
+
+.text-extrabold-italic{
+  font-family: 'mulish-extrabold-italic', sans-serif !important;
+}
+
+.text-medium-italic{
+  font-family: 'mulish-medium-italic', sans-serif !important;
+}
+
+.max-w-content{
+  max-width: max-content;
+}
+
+@media (min-width: 714px){
+  .md\:max-w-content{
+    max-width: max-content !important;
+  }
+}
+
+.min-w-content{
+  min-width: max-content;
+}
+
+.min-h-content{
+  min-height: max-content;
+}
+
+.max-h-content{
+  max-height: max-content;
+}

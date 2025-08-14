@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE `ZIC_REQ_REQUESTS` MODIFY `devolution_time` VARCHAR(191) NOT NULL,
+    MODIFY `entry_time` VARCHAR(191) NOT NULL;

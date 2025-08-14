@@ -1,0 +1,15 @@
+<aside
+  class="hidden md:block h-full bg-gray-800 text-gray-100 transition-all duration-200 ease-in-out flex-shrink-0"
+  style="z-index: 3;"
+  (mouseenter)="toggleSidebar()"
+  (mouseleave)="toggleSidebar()"
+  [ngClass]="isCollapsed ? 'w-20' : 'w-64'"
+>
+  <div class="overflow-y-auto" style="height: 100vh;">
+    <div class="px-6 py-4 text-center bg-gray-900">
+      <img *ngIf="!isCollapsed" src="logos/zizicar-logo.webp">
+      <img *ngIf="isCollapsed" src="logos/favicon.webp">
+    </div>
+    <app-sidebar-nav></app-sidebar-nav>
+  </div>
+</aside>

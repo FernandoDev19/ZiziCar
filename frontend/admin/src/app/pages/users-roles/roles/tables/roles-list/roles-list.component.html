@@ -1,0 +1,44 @@
+<h1 class="text-gray-700 text-lg font-semibold mb-5">Lista de roles</h1>
+<p-table
+  *ngIf="activeItem === 0"
+  [value]="users"
+  [paginator]="true"
+  [rows]="5"
+  [tableStyle]="{ 'min-width': '50rem' }"
+  [rowsPerPageOptions]="[5, 10, 20]"
+>
+  <ng-template pTemplate="header">
+    <tr>
+      <th pSortableColumn="name" style="width: 25%">
+        Name <p-sortIcon field="name" />
+      </th>
+      <th pSortableColumn="country" style="width: 25%">
+        Country <p-sortIcon field="country" />
+      </th>
+      <th pSortableColumn="company" style="width: 25%">
+        Company <p-sortIcon field="company" />
+      </th>
+      <th pSortableColumn="representative" style="width: 25%">
+        Representative <p-sortIcon field="representative" />
+      </th>
+      <th style="width: 25%">Acciones</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-user>
+    <tr>
+      <td>{{ user.name }}</td>
+      <td>{{ user.country }}</td>
+      <td>{{ user.company }}</td>
+      <td>{{ user.representative }}</td>
+      <td>
+        <button
+          type="button"
+          class="py-3 px-4 bg-white hover:bg-gray-100 border rounded-md"
+          style="text-wrap: nowrap"
+        >
+          Asignar rol
+        </button>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>

@@ -1,0 +1,15 @@
+<div class="w-full bg-white p-5 rounded-md mb-5">
+  <app-user-form></app-user-form>
+  @if(isRoleProvider){
+    <div id="providerData" #providerData>
+      <app-provider-form></app-provider-form>
+    </div>
+  }
+  <div class="flex justify-end">
+    <button type="button" class="py-3 px-5 bg-blue-500 hover:bg-blue-600 text-white rounded-md" (click)="createUser()">Crear usuario</button>
+  </div>
+</div>
+
+<div class="w-full bg-white p-5 rounded-md" #usersList>
+  <app-users-list></app-users-list>
+</div>

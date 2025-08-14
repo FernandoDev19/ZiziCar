@@ -1,0 +1,29 @@
+<app-unquoted-requests-pc-version *ngIf="!isMobile" (doAction)="doAction($event.type, $event.id, $event.phoneClient)" (showOverlay)="showOverlay($event.event, $event.type, $event.requestIdSelected)" [renterId]="renterId" [requests]="requests" [userRole]="userRole"></app-unquoted-requests-pc-version>
+<app-unquoted-requests-mobile-version *ngIf="isMobile" (doAction)="doAction($event.type, $event.id, $event.phoneClient)" (showOverlay)="showOverlay($event.event, $event.type, $event.requestIdSelected)" [renterId]="renterId" [requests]="requests" [userRole]="userRole"></app-unquoted-requests-mobile-version>
+
+<p-overlayPanel #actions [style]="{ width: '250px', maxWidth: '350px' }">
+<ul>
+  @for(item of splitButtonItems; track item.type){
+    <li
+      *ngIf="item.role.includes(userRole)"
+      class="transition duration-300 hover:bg-gray-100 ease"
+    >
+      <p-button
+        [disabled]="hasQuoteOrAnswer(requestIdSelected) != 'no' "
+        styleClass="w-full text-start"
+        (click)="doAction(item.type, '')"
+        type="button p-0 m-0 border-0"
+        >{{ item.label }}</p-button
+      >
+    </li>
+    }
+</ul>
+</p-overlayPanel>
+
+<p-confirmDialog />
+
+<app-answer-data *ngIf="isAnswersDataLoaded" [requestId]="requestIdSelected" (isAnswersDataLoaded)="showAnswersData($event)" (toggleModalEmitter)="toggleModal($event)"></app-answer-data>
+<app-customer-data *ngIf="isCustomerDataLoaded" [phoneClient]="phoneClient" (isCustomerDataLoaded)="showCustomerData($event)" (toggleModalEmitter)="toggleModal($event)"></app-customer-data>
+<app-quotes-data *ngIf="isQuotesDataLoaded" [requestId]="requestIdSelected" (isQuotesDataLoaded)="showQuotesData($event)" (showActions)="showActions($event)" (toggleModalEmitter)="toggleModal($event)" (doActionEmitter)="doAction($event[0], $event[1])"></app-quotes-data>
+<app-provider-data *ngIf="isSentToDataLoaded" [requestId]="requestIdSelected" (isSentToDataLoaded)="showProviderData($event)" (showActions)="showActions($event)" (toggleModalEmitter)="toggleModal($event)"></app-provider-data>
+

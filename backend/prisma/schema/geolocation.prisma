@@ -1,0 +1,34 @@
+model ZIC_ADM_COUNTRIES {
+  id                 Int                @id @default(autoincrement())
+  name               String             @db.VarChar(100)
+  prefix             Int
+  continent_id       Int
+  ZIC_ADM_CONTINENTS ZIC_ADM_CONTINENTS @relation(fields: [continent_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "fs_continents")
+  ZIC_ADM_PROVIDERS  Provider[]
+  ZIC_ADM_STATES     ZIC_ADM_STATES[]
+
+  @@index([continent_id], map: "fs_continents")
+}
+
+model ZIC_ADM_GLOBAL_CITIES {
+  id                                                                   Int            @id @default(autoincrement())
+  name                                                                 String         @db.VarChar(100)
+  state_id                                                             Int
+  ZIC_ADM_STATES                                                       ZIC_ADM_STATES @relation(fields: [state_id], references: [id], onDelete: Cascade, map: "fs_state_of_city")
+  ZIC_ADM_PROVIDERS                                                    Provider[]
+  ZIC_REQ_REQUESTS_ZIC_REQ_REQUESTS_id_devolution_cityToZIC_REQ_CITIES Request[]      @relation("ZIC_REQ_REQUESTS_id_devolution_cityToZIC_REQ_CITIES")
+  ZIC_REQ_REQUESTS_ZIC_REQ_REQUESTS_id_entry_cityToZIC_REQ_CITIES      Request[]      @relation("ZIC_REQ_REQUESTS_id_entry_cityToZIC_REQ_CITIES")
+
+  @@index([state_id], map: "fs_state_of_city")
+}
+
+model ZIC_ADM_STATES {
+  id                    Int                     @id @default(autoincrement())
+  name                  String                  @db.VarChar(100)
+  country_id            Int
+  ZIC_ADM_GLOBAL_CITIES ZIC_ADM_GLOBAL_CITIES[]
+  ZIC_ADM_PROVIDERS     Provider[]
+  ZIC_ADM_COUNTRIES     ZIC_ADM_COUNTRIES       @relation(fields: [country_id], references: [id], onDelete: Cascade, map: "fs_country_of_department")
+
+  @@index([country_id], map: "fs_country_of_state")
+}

@@ -1,0 +1,27 @@
+<div class="bg-secondary px-3 py-10">
+  <h2 class="text-white text-extrabold-italic text-xl md:text-3xl text-center mb-10">
+    Conectándote con las mayores marcas en alquiler de autos
+  </h2>
+  <p-carousel
+    [value]="allies"
+    [numVisible]="numVisible"
+    [circular]="true"
+    [numScroll]="1"
+    autoplayInterval="3000"
+  >
+    <ng-template let-allie #item>
+      <div class="rounded-xl my-2 mx-auto p-1" style="max-height: 80px; max-width: 100px;" [style]="allie.style">
+        <div class="relative mx-auto">
+          <img
+            loading="lazy"
+            [src]="allie.img"
+            alt="logo aliado"
+            class="w-full rounded-md mx-auto"
+            height="40"
+            width="60"
+          />
+        </div>
+      </div>
+    </ng-template>
+  </p-carousel>
+</div>

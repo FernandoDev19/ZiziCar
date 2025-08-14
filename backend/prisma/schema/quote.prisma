@@ -1,0 +1,32 @@
+model ZIC_ADM_QUOTES {
+  id                                  String               @id @default(dbgenerated("(uuid())")) @db.VarChar(199)
+  request_id                          String               @db.VarChar(199)
+  renter_id                           String?              @db.VarChar(199)
+  phone_client                        String               @db.VarChar(16)
+  rent                                Int
+  overtime                            Int
+  home_delivery                       Int
+  home_collection                     Int
+  return_or_collection_different_city Int
+  total_value                         Int
+  brand                               String
+  transmission_id                     String               @db.VarChar(199)
+  model                               Int
+  color                               String               @db.VarChar(30)
+  plate_end_in                        String               @db.VarChar(30)
+  value_to_block_on_credit_card       Int
+  allowed_payment_method              String               @db.VarChar(50)
+  available_kilometers                String               @db.VarChar(30)
+  percentage_of_total_value           String               @db.VarChar(4)
+  percentage_in_values                Int
+  comments                            String?              @db.Text
+  created_at                          DateTime             @default(now()) @db.Timestamp(0)
+  ZIC_ADM_CUSTOMERS                   ZIC_ADM_CUSTOMERS[]
+  ZIC_ADM_PROVIDERS                   Provider?            @relation(fields: [renter_id], references: [id], onDelete: Cascade, map: "fs_renter")
+  ZIC_REQ_REQUESTS                    Request              @relation(fields: [request_id], references: [id], onDelete: Cascade, map: "fs_request")
+  ZIC_ADM_TRANSMISSION                ZIC_ADM_TRANSMISSION @relation(fields: [transmission_id], references: [id], map: "fs_transmission")
+
+  @@index([renter_id], map: "fs_renter")
+  @@index([transmission_id], map: "fs_transmission")
+  @@index([request_id], map: "fs_request")
+}

@@ -1,0 +1,11 @@
+model ZIC_ADM_REQUEST_PROVIDER {
+  id                String   @id @default(dbgenerated("(uuid())")) @db.VarChar(199)
+  request_id        String   @db.VarChar(199)
+  provider_id       String   @db.VarChar(199)
+  sent_at           DateTime @db.Timestamp(0)
+  ZIC_ADM_PROVIDERS Provider @relation(fields: [provider_id], references: [id], onUpdate: Restrict, map: "fs_providers_requests")
+  ZIC_REQ_REQUESTS  Request  @relation(fields: [request_id], references: [id], onUpdate: Restrict, map: "fs_request_to_providers")
+
+  @@index([provider_id], map: "fs_providers_requests")
+  @@index([request_id], map: "fs_request_to_providers")
+}

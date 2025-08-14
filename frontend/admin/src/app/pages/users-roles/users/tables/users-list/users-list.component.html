@@ -1,0 +1,76 @@
+<div class="tab-menu">
+  <ul class="flex border-b">
+    <li
+      *ngFor="let item of items; let i = index"
+      (click)="setActiveTab(i)"
+      [class.active]="activeItem === i"
+      class="cursor-pointer px-4 py-2 -mb-px text-gray-600 border-b-2 border-transparent hover:text-blue-700"
+    >
+      {{ item.label }}
+    </li>
+  </ul>
+
+  <div class="p-4">
+    <h1 class="text-gray-700 text-lg font-semibold mb-5">Lista de Usuarios</h1>
+    <p-table
+      *ngIf="activeItem === 0"
+      #dtRequests
+      [value]="users"
+      [paginator]="true"
+      [rows]="5"
+      [rowsPerPageOptions]="[5, 10, 20]"
+      [tableStyle]="{ 'min-width': '50rem' }"
+      [globalFilterFields]="globalFields"
+      sortField="created_at"
+      [sortOrder]="-1"
+    >
+    <ng-template pTemplate="caption">
+      <div class="p-inputgroup">
+        <span class="p-inputgroup-addon">
+          <i class="pi pi-search"></i>
+        </span>
+        <input
+          pInputText
+          type="text"
+          (input)="onSearch($event, dtRequests)"
+          placeholder="Search keyword"
+        />
+      </div>
+    </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="name" style="width: 25%">Name <p-sortIcon field="name" /></th>
+          <th pSortableColumn="email" style="width: 25%;">Email <p-sortIcon field="email"></p-sortIcon></th>
+          <th pSortableColumn="provider_id" style="width: 25%;">Es proveedor <p-sortIcon field="provider_id"></p-sortIcon></th>
+          <th pSortableColumn="role" style="width: 25%;">Role <p-sortIcon field="role"></p-sortIcon></th>
+          <th style="width: 25%;">Acciones</th>
+          <th pSortableColumn="created_at" style="width: 25%;">Creado a las <p-sortIcon field="created_at"></p-sortIcon></th>
+          <th pSortableColumn="updated_at" style="width: 25%;">updated_at <p-sortIcon class="updated_at"></p-sortIcon></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-user>
+        <tr>
+          <td>{{ user.name }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.provider_id || '' }}</td>
+          <td>{{ user.role }}</td>
+          <td>
+            <div class="flex">
+              <button type="button" class="py-2 px-3 bg-white hover:bg-gray-100 border rounded-l-md" style="text-wrap: nowrap;">Asignar rol</button>
+              <button (click)="showOverlay($event, 'splitbutton', user.id)" type="button" class="py-2 px-3 bg-white hover:bg-gray-100 border rounded-r-md" style="text-wrap: nowrap;"><fa-icon [icon]="faCaretDown"></fa-icon></button>
+            </div>
+          </td>
+          <td>{{ user.created_at || '?' }}</td>
+          <td>{{ user.updated_at || '?' }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+    <p-overlayPanel #actions [style]="{ width: '250px', maxWidth: '350px' }">
+      <ul>
+        @for(item of splitButtonItems; track item.type){
+          <li class="hover:bg-gray-100"><button (click)="doAction(item.type)" type="button p-0 m-0 border-0">{{ item.label }}</button></li>
+        }
+      </ul>
+    </p-overlayPanel>
+  </div>
+</div>

@@ -1,0 +1,25 @@
+.user-name {
+  max-width: 150px;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 350px){
+  .user-name {
+    max-width: 100px !important;
+  }
+}
+
+@media (min-width: 600px){
+  .user-name {
+    max-width: 200px !important;
+  }
+}
+
+@media (min-width: 900px){
+  .user-name {
+    max-width: 100% !important;
+  }
+}

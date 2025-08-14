@@ -1,0 +1,5 @@
+.vertical-text {
+  writing-mode: vertical-lr !important;
+  text-orientation: mixed !important;
+  transform: rotate(-180deg);
+}

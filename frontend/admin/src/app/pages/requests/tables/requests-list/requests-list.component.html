@@ -1,0 +1,24 @@
+<div class="tab-menu">
+  <ul class="flex border-b overflow-x-scroll overflow-y-hidden">
+    @for(item of items; track item.role; let i = $index){
+      <li
+        *ngIf="item.role.includes(userRole)"
+        (click)="setActiveTab(i)"
+        [class.active]="activeItem === i"
+        class="cursor-pointer text-sm md:text-sm px-4 py-2 -mb-px text-gray-600 border-b-2 border-transparent hover:text-blue-700"
+      >
+        {{ item.label }}
+      </li>
+    }
+  </ul>
+
+  <div class="py-4 md:px-4">
+    <div [ngSwitch]="activeItem">
+      <app-all-requests *ngSwitchCase="0" (quote)="requestToQuoteActive($event)" [userRegistered]="userRegistered"></app-all-requests>
+      <app-unquoted-requests *ngSwitchCase="1" (quote)="requestToQuoteActive($event)" [userRegistered]="userRegistered"></app-unquoted-requests>
+      <app-quoted-requests *ngSwitchCase="2" [userRegistered]="userRegistered"></app-quoted-requests>
+      <app-exhausted-requests *ngSwitchCase="3" [userRegistered]="userRegistered"></app-exhausted-requests>
+      <app-expired-requests *ngSwitchCase="4" [userRegistered]="userRegistered"></app-expired-requests>
+    </div>
+  </div>
+</div>

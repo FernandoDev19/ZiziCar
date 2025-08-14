@@ -1,0 +1,43 @@
+<div class="flex bg-gray-100 overflow-hidden" style="max-height: 100vh;">
+  <!-- Sidebar -->
+  <app-sidebar></app-sidebar>
+  <!-- Main content area -->
+  <div class="flex-1 flex flex-col h-full overflow-scroll" style="max-height: 100vh;">
+    <div class="sticky top-0" style="z-index: 2;;">
+      <app-header></app-header>
+      <app-sidebar-horizontal></app-sidebar-horizontal>
+    </div>
+    <!-- Main content -->
+    <main class="flex-1 bg-gray-100 p-6">
+      <h2 class="text-2xl font-semibold text-gray-700 mb-5">Vehículos</h2>
+      <div class="container">
+        <div class="tab-menu">
+          <ul class="flex border-b">
+            <li
+              *ngFor="let item of items; let i = index"
+              (click)="setActiveTab(i)"
+              [class.active]="activeItem === i"
+              class="cursor-pointer px-4 py-2 -mb-px text-gray-600 border-b-2 border-transparent hover:text-blue-700"
+            >
+            {{ item.label }}
+            </li>
+          </ul>
+
+          <div class="p-4">
+            <div class="w-full bg-white p-5 rounded-md mb-5">
+              <app-vehicle-form></app-vehicle-form>
+              <div class="flex justify-end">
+                <button type="button" class="py-3 px-5 bg-blue-500 hover:bg-blue-600 text-white rounded-md" (click)="createVehicle()">Crear vehículo</button>
+              </div>
+            </div>
+
+            <div class="w-full bg-white p-5 rounded-md">
+              <app-vehicles-list></app-vehicles-list>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <app-footer></app-footer>
+  </div>
+</div>

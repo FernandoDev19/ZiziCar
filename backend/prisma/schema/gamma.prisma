@@ -1,0 +1,9 @@
+model Gamma {
+  id              String    @id @default(uuid())
+  name            String
+  image_url       String
+  precio_promedio Decimal   @db.Decimal(10, 0)
+  requests        Request[]
+
+  @@map("ZIC_ADM_GAMMA")
+}

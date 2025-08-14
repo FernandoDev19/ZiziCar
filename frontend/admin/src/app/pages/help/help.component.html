@@ -1,0 +1,44 @@
+<div class="flex bg-gray-100 overflow-hidden" style="max-height: 100vh;">
+  <!-- Sidebar -->
+  <app-sidebar></app-sidebar>
+  <!-- Main content area -->
+  <div class="flex-1 flex flex-col h-full overflow-auto" style="max-height: 100vh;">
+    <div class="sticky top-0" style="z-index: 2;;">
+      <app-header></app-header>
+      <app-sidebar-horizontal></app-sidebar-horizontal>
+    </div>
+    <!-- Main content -->
+    <main class="flex-1 bg-gray-100 p-6">
+      <h2 class="text-2xl font-semibold text-gray-700 mb-6">Ayuda</h2>
+      <div class="mb-6 w-full">
+        <p class="text-gray-600 text-center">
+          Hola, estimado usuario,<br />
+          Nos complace darte la bienvenida al
+          <b>panel administrativo</b> de <strong>ZiziCar</strong>.<br />
+          Este espacio está diseñado para facilitar la gestión de tus operaciones y
+          optimizar tu experiencia.<br />
+          Actualmente, el panel se encuentra en constante desarrollo y mejora para
+          ofrecerte nuevas funcionalidades y una experiencia más eficiente.<br />
+          Si tienes alguna consulta, encuentras algún inconveniente o deseas realizar
+          sugerencias, nuestro equipo de soporte técnico estará encantado de
+          ayudarte.<br /><br /><b>Soporte técnico:</b><br /><strong
+            ><a
+              href="https://wa.me/573005442580?text=Hola%20👋%20necesito%20ayuda%20con%20el%20panel%20de%20control%20de%20ZiziCar."
+              target="_blank"
+              class="text-green-500 hover:text-green-400 text-xl"
+              >¡Contactar por WhatsApp! 📲</a
+            ><br
+          /></strong>
+          🕒 <strong>Horario de atención:</strong> Lunes a viernes, de 8:00 a.m. a 5:00
+          p.m.<br /><br />
+          Te agradecemos por tu paciencia y confianza mientras continuamos trabajando en
+          brindar una herramienta más completa para ti.<br /><br />
+          ¡Gracias por ser parte de nuestra comunidad!<br />
+          Atentamente,<br />
+          El equipo de desarrollo.
+        </p>
+      </div>
+    </main>
+    <app-footer></app-footer>
+  </div>
+</div>

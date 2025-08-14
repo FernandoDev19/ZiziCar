@@ -1,0 +1,46 @@
+<div  class="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center" style="z-index: 6;">
+  <!-- Contenedor del Modal -->
+  <div class="bg-white rounded-lg shadow-lg w-lg w-full px-6 py-8 relative overflow-y-auto" style="max-height: 95%;">
+    <!-- Botón de Cerrar -->
+    <button style="z-index: 2;" class="absolute top-0 right-0 mt-4 mr-4 text-gray-500 hover:text-gray-700" (click)="toggleModal('answer')">
+      ✖️
+    </button>
+    <p-table
+    [value]="answersData"
+    [paginator]="true"
+    [rows]="5"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [rowsPerPageOptions]="[5, 10, 20]"
+    sortField="created_at"
+    [sortOrder]="-1"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 25%;">
+          N°
+        </th>
+        <th pSortableColumn="provider_name" style="width: 25%;">
+          Proveedor
+        </th>
+        <th pSortableColumn="phone" style="width: 25%;">
+          Tipo de respuesta
+        </th>
+        <th pSortableColumn="created_at" style="width: 25%;">
+          Fecha de creación
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-answer let-rowIndex="rowIndex">
+      <tr>
+        <td>{{ rowIndex + 1 }}</td>
+        <td>{{ answer.provider_name }}</td>
+        <td>{{ answer.answer_type }}</td>
+        <td>{{ answer.created_at }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+      <div class='flex justify-end'>
+        <button class="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded" (click)="toggleModal('answer')">Cerrar Modal</button>
+      </div>
+    </div>
+</div>

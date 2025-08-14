@@ -1,0 +1,9 @@
+#how-put-it-to-work-container{
+  transform: translateY(-8rem);
+}
+
+@media (max-width: 714px){
+  #how-put-it-to-work-container{
+    transform: translateY(0) !important;
+  }
+}

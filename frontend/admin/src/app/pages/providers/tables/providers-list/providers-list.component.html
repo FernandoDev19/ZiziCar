@@ -1,0 +1,87 @@
+<h1 class="text-gray-700 text-lg font-semibold mb-5">Lista de Aliados</h1>
+
+<p-table
+  [value]="providers"
+  #dtRequests
+  [paginator]="true"
+  [rows]="5"
+  [tableStyle]="{ 'min-width': '50rem' }"
+  [rowsPerPageOptions]="[5, 10, 20]"
+  sortField="created_at_unformatted"
+  [globalFilterFields]="globalFields"
+  [sortOrder]="-1"
+>
+    <ng-template pTemplate="caption">
+      <div class="p-inputgroup">
+        <span class="p-inputgroup-addon">
+          <i class="pi pi-search"></i>
+        </span>
+        <input
+          pInputText
+          type="text"
+          (input)="onSearch($event, dtRequests)"
+          placeholder="Search keyword"
+        />
+      </div>
+    </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th style="width: 25%;">
+        N°
+      </th>
+      <th pSortableColumn="name" style="width: 25%;">
+        Nombre
+      </th>
+      <th pSortableColumn="nit" style="width: 25%;">
+        NIT
+      </th>
+      <th pSortableColumn="phone" style="width: 25%;">
+        Celular
+      </th>
+      <th pSortableColumn="email" style="width: 25%;">
+        Email
+      </th>
+      <th pSortableColumn="country" style="width: 25%;">
+        País
+      </th>
+      <th pSortableColumn="state" style="width: 25%;">
+        Dpto/Estado
+      </th>
+      <th pSortableColumn="city" style="width: 25%;">
+        Ciudad
+      </th>
+      <th pSortableColumn="address" style="width: 25%;">
+        Dirección
+      </th>
+      <th pSortableColumn="cities_preferences" style="width: 25%;">
+        Preferencia de ciudades
+      </th>
+      <th pSortableColumn="percentage_of_rent" style="width: 25%;">
+        Porcentage de renta
+      </th>
+      <th pSortableColumn="allowed_payment_method" style="width: 25%;">
+        Metodo de pago
+      </th>
+      <th pSortableColumn="created_at_unformatted" style="width: 25%;">
+        Fecha de creación
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-provider let-rowIndex="rowIndex">
+    <tr>
+      <td>{{ rowIndex + 1 }}</td>
+      <td>{{ provider.name }}</td>
+      <td>{{ provider.nit }}</td>
+      <td>{{ provider.phone }}</td>
+      <td>{{ provider.email }}</td>
+      <td>{{ provider.country }}</td>
+      <td>{{ provider.state }}</td>
+      <td>{{ provider.city }}</td>
+      <td>{{ provider.address }}</td>
+      <td>{{ provider.cities_preferences }}</td>
+      <td>{{ provider.percentage_of_rent }}</td>
+      <td>{{ provider.allowed_payment_method }}</td>
+      <td>{{ provider.created_at }}</td>
+    </tr>
+  </ng-template>
+</p-table>

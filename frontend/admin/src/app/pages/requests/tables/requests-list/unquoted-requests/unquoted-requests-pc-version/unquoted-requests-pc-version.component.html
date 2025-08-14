@@ -1,0 +1,91 @@
+<p-table
+#dtRequests
+[value]="requests"
+[paginator]="true"
+[rows]="5"
+[tableStyle]="{ 'min-width': '50rem' }"
+[rowsPerPageOptions]="[5, 10, 20]"
+sortField="created_at"
+[globalFilterFields]="globalFields"
+[sortOrder]="-1"
+>
+<ng-template pTemplate="caption">
+  <div class="p-inputgroup">
+    <span class="p-inputgroup-addon">
+      <i class="pi pi-search"></i>
+    </span>
+    <input
+      pInputText
+      type="text"
+      (input)="onSearch($event, dtRequests)"
+      placeholder="Search keyword"
+    />
+  </div>
+</ng-template>
+<ng-template pTemplate="header">
+  <tr>
+    <th style="width: 10%">N°</th>
+    <th *ngIf="userRole === Role.ADMIN" style="width: 10%;">Enviado a</th>
+    <th *ngIf="userRole === Role.ADMIN" style="width: 10%;">Cotizaciones</th>
+    <th *ngIf="userRole === Role.ADMIN" style="width:  10%;">Otras Respuestas</th>
+    <th pSortableColumn="created_at" style="width: 25%">
+      Fecha de creación
+    </th>
+    <th *ngIf="userRole === Role.ADMIN" pSortableColumn="name" style="width: 25%">
+      Nombre
+    </th>
+    <th *ngIf="userRole === Role.ADMIN" pSortableColumn="phone" style="width: 25%">
+      Celular
+    </th>
+    <th pSortableColumn="gamma" style="width: 25%">
+      Gama y Transmisión
+    </th>
+    <th pSortableColumn="entry_city" style="width: 25%">
+      Ciudad de entrega
+    </th>
+    <th pSortableColumn="days_of_rent" style="width: 25%">
+      Dias de renta
+    </th>
+    <th pSortableColumn="entry_date_unformatted" style="width: 25%">
+      Fecha de entrega
+    </th>
+    <th pSortableColumn="devolution_date_unformatted" style="width: 25%">
+      Fecha de devolución
+    </th>
+    <th pSortableColumn="devolution_city" style="width: 25%">
+      Ciudad de devolución
+    </th>
+    <th pSortableColumn="comments" style="width: 35%">
+      Comentarios
+    </th>
+    <th style="width: 25%">
+      Acciones
+    </th>
+  </tr>
+</ng-template>
+<ng-template pTemplate="body" let-request let-rowIndex="rowIndex">
+  <tr class="hover:bg-gray-100 transition duration-100 ease">
+    <td>{{ rowIndex + 1 }}</td>
+    <td *ngIf="userRole === Role.ADMIN"><button (click)="ejecutarAccion('sent_to', request.id)" [ngClass]="request.sent_to.length === 0 ? 'bg-gray-300' : 'bg-green-400 hover:bg-green-500'" [disabled]="request.sent_to.length === 0" class="py-2 px-3 transition duration-300 ease text-white border rounded-md">{{ request.sent_to.length }}</button></td>
+    <td *ngIf="userRole === Role.ADMIN"><button (click)="ejecutarAccion('view_quotes', request.id)" [ngClass]="request.quotes.length === 0 ? 'bg-gray-300' : 'bg-green-400 hover:bg-green-500'" [disabled]="request.quotes.length === 0" class="py-2 px-3 transition duration-300 ease text-white border rounded-md">{{ request.quotes.length }}</button></td>
+    <td *ngIf="userRole === Role.ADMIN"><button (click)="ejecutarAccion('view_answers', request.id)" [ngClass]="request.answers.length === 0 ? 'bg-gray-300' : 'bg-green-400 hover:bg-green-500'" [disabled]="request.answers.length === 0" class="py-2 px-3 transition duration-300 ease text-white border rounded-md">{{ request.answers.length }}</button></td>
+    <td>{{ request.created_at | date:'dd/MM/yyyy HH:mm' }}</td>
+    <td *ngIf="userRole === Role.ADMIN">{{ request.name }}</td>
+    <td *ngIf="userRole === Role.ADMIN">{{ request.phone }}</td>
+    <td>{{ request.gamma + ' ' + request.transmission}}</td>
+    <td>{{ request.entry_city }}<br>{{ request.receive_at_airport }}</td>
+    <td>{{ request.days_of_rent }}</td>
+    <td>{{ request.entry_date }} a las {{ request.entry_time }}</td>
+    <td>{{ request.devolution_date }} a las {{ request.devolution_time }}</td>
+    <td>{{ request.devolution_city }}<br>{{ request.returns_at_airport }}</td>
+    <td>{{ request.comments }}</td>
+    <td>
+      <div class="flex">
+        <button *ngIf="userRole === Role.ADMIN" (click)="ejecutarAccion('viewCustomer', '', request.phone)" class="bg-green-400 hover:bg-green-500 py-2 px-3 transition duration-300 ease text-white border rounded-l-md">Ver cliente</button>
+        <button *ngIf="userRole != Role.ADMIN" (click)="ejecutarAccion('quote', request.id)" type="button" class="bg-green-400 hover:bg-green-500 py-2 px-3 transition duration-300 ease text-white border rounded-l-md" style="text-wrap: nowrap;">Cotizar</button>
+        <button (click)="mostrarOverlay($event, 'splitbutton', request.id)" type="button" class="transition duration-300 py-2 px-3 bg-green-500 hover:bg-green-600 border rounded-r-md" style="text-wrap: nowrap;"><fa-icon [icon]="faCaretDown"></fa-icon></button>
+      </div>
+    </td>
+  </tr>
+</ng-template>
+</p-table>

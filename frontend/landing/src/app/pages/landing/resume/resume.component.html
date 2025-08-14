@@ -1,0 +1,79 @@
+<button
+  type="button"
+  *ngIf="
+    dataForResume?.gamma &&
+    dataForResume?.transmission &&
+    dataForResume?.entry &&
+    dataForResume?.devolution &&
+    isButtonVisible
+  "
+  (click)="togglePopover($event)"
+  class="fixed py-3 px-5 md:hidden bottom-4 left-0 bg-secondary hover:bg-purple-800 text-white rounded-r-full shadow-lg z-50"
+>
+  Resumen <i class="fas fa-file-alt ml-2"></i>
+</button>
+
+<p-popover
+  #popoverResume
+  [style]="{ borderRadius: '0rem 1rem 1rem 0rem', backgroundColor: '#401987', maxWidth: '100vw' }"
+>
+  <div style="max-height: 85vh; overflow-y: scroll;">
+    <div class="w-full flex justify-end mb-3 gap-3">
+      <span (click)="togglePopover($event)" class="text-white hover:text-gray-100"
+        >x</span
+      >
+    </div>
+    <div class="flex flex-col items-center mb-3">
+      <img
+        [src]="dataForResume?.gamma?.image"
+        alt="Imagen del vehículo"
+        class="max-w-full object-contain mb-4 bg-white rounded-md p-3"
+        style="max-height: 200px"
+      />
+      <p class="font-extrabold text-white md:text-gray-200 mb-3">
+        Precio promedio:
+      </p>
+      <p class="text-extrabold-italic text-2xl text-white mb-3">
+        {{
+          dataForResume?.gamma?.average_price || 0 > 0
+            ? (dataForResume?.gamma?.average_price
+              | currency : "COP" : "symbol" : "1.0-0")
+            : "Calculando..."
+        }}
+      </p>
+      <p class='w-full text-sm rounded-full px-3 py-2 bg-primary text-white text-center'>
+        Este puede variar según ciudad,<br class="md:hidden"> fecha y tiempo de alquiler.
+      </p>
+    </div>
+    <div class="flex flex-wrap gap-2">
+      <div class="text-white w-1/2 mb-3">
+        <p class="font-extrabold">Gama</p>
+        <p>{{ dataForResume?.gamma?.name }}</p>
+      </div>
+      <div class="text-white w-1/2 mb-3">
+        <p class="font-extrabold">Tipo de transmisión</p>
+        <p>{{ dataForResume?.transmission?.name }}</p>
+      </div>
+    </div>
+    <div class="flex flex-wrap gap-2">
+      <div class="text-white w-1/2 mb-3">
+        <p class="font-extrabold">Ciudad y<br />fecha de retiro</p>
+        <p>{{ dataForResume?.entry?.city }}{{ dataForResume?.entry?.receive_at_airport ? ' en aeropuerto' : '' }}</p>
+        <p>{{ dataForResume?.entry?.dateTime }}</p>
+      </div>
+      <div class="text-white w-1/2 mb-3">
+        <p class="font-extrabold">Ciudad y<br />fecha de devolución</p>
+        <p>{{ dataForResume?.devolution?.city }}{{ dataForResume?.devolution?.returns_at_airport ? ' en aeropuerto' : '' }}</p>
+        <p>{{ dataForResume?.devolution?.dateTime }}</p>
+      </div>
+    </div>
+    <div class="w-full flex justify-center">
+      <button
+        class="bg-transparent border border-white hover:text-lettersGray hover:bg-white px-5 py-2 text-white rounded-full"
+        (click)="goToModify()"
+      >
+        Modificar
+      </button>
+    </div>
+  </div>
+</p-popover>

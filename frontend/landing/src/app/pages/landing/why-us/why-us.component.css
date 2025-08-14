@@ -1,0 +1,60 @@
+#video-zizicar{
+  max-height: 15rem;
+  height: 10rem;
+  z-index: 1;
+  background-image: url('https://imagenes-publicas-zzcr-s3.s3.us-east-1.amazonaws.com/video-zizicar-min.webp');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+@media (min-width: 485px) and (max-width: 767px){
+  #video-zizicar{
+    height: 12rem;
+    width: 20rem;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 939px){
+  #video-zizicar{
+    position: relative;
+    height: 10rem;
+    width: 17rem;
+    transform: translate(50px, 0);
+  }
+}
+
+@media (min-width: 940px) and (max-width: 1275px){
+  #video-zizicar{
+    position: relative;
+    height: 12rem;
+    width: 20rem;
+    transform: translate(90px, 0);
+  }
+}
+
+@media (min-width: 1276px){
+  #video-zizicar{
+    height: 16rem;
+    width: 25rem;
+    transform: translate(190px, 0) !important;
+  }
+}
+
+.mask-primary{
+  background-color: #3f1987a4;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+}
+
+#why-us-content{
+  transform: translate(0, -90px);
+}
+
+@media (min-width: 768px){
+  #why-us-content{
+    transform: translate(-90px, 0);
+    max-width: 800px;
+  }
+}

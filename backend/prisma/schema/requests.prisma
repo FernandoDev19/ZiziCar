@@ -1,0 +1,36 @@
+model Request {
+  id                                                                 String                     @id @default(uuid())
+  sent_to                                                            Int                        @default(0)
+  quotes                                                             Int                        @default(0)
+  answers                                                            Int                        @default(0)
+  name                                                               String
+  email                                                              String?
+  phone                                                              String
+  comments                                                           String?
+  created_at                                                         DateTime                   @default(now())
+  id_entry_city                                                      Int
+  receive_at_airport                                                 Boolean                    @default(false)
+  id_devolution_city                                                 Int
+  returns_at_airport                                                 Boolean                    @default(false)
+  devolution_date                                                    DateTime
+  devolution_time                                                    String
+  entry_date                                                         DateTime
+  entry_time                                                         String
+  gamma_id                                                           String
+  transmission_id                                                    String
+  observations                                                       String?                    @db.LongText
+  ZIC_ADM_CUSTOMERS                                                  ZIC_ADM_CUSTOMERS[]
+  ZIC_ADM_QUOTES                                                     ZIC_ADM_QUOTES[]
+  ZIC_ADM_REQUEST_PROVIDER                                           ZIC_ADM_REQUEST_PROVIDER[]
+  ZIC_REQ_ANSWERS                                                    ZIC_REQ_ANSWERS[]
+  gamma                                                              Gamma                      @relation(fields: [gamma_id], references: [id])
+  ZIC_ADM_TRANSMISSION                                               ZIC_ADM_TRANSMISSION       @relation(fields: [transmission_id], references: [id], map: "ZIC_REQ_REQUESTS_transmision_id_fkey")
+  ZIC_REQ_CITIES_ZIC_REQ_REQUESTS_id_devolution_cityToZIC_REQ_CITIES ZIC_ADM_GLOBAL_CITIES      @relation("ZIC_REQ_REQUESTS_id_devolution_cityToZIC_REQ_CITIES", fields: [id_devolution_city], references: [id], map: "fs_devolution_city")
+  ZIC_REQ_CITIES_ZIC_REQ_REQUESTS_id_entry_cityToZIC_REQ_CITIES      ZIC_ADM_GLOBAL_CITIES      @relation("ZIC_REQ_REQUESTS_id_entry_cityToZIC_REQ_CITIES", fields: [id_entry_city], references: [id], map: "fs_entry_city")
+
+  @@index([gamma_id], map: "ZIC_REQ_REQUESTS_gamma_id_fkey")
+  @@index([transmission_id], map: "ZIC_REQ_REQUESTS_transmision_id_fkey")
+  @@index([id_devolution_city], map: "ZIC_REQ_REQUESTS_id_devolution_city_fkey")
+  @@index([id_entry_city], map: "ZIC_REQ_REQUESTS_id_entry_city_fkey")
+  @@map("ZIC_REQ_REQUESTS")
+}

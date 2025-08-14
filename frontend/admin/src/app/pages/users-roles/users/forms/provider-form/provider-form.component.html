@@ -1,0 +1,359 @@
+<form [formGroup]="providerForm">
+  <h1 class="text-gray-700 text-lg font-semibold mb-5">Datos del proveedor</h1>
+  <div class="mb-5" #nitContainer>
+    <label for="nit" class="text-gray-600 font-semibold">NIT</label>
+    <div class="flex">
+      <span
+        class="inline-flex items-center px-3 border border-r-0 rounded-l-md bg-gray-200"
+      >
+        <fa-icon [icon]="faIdCard"></fa-icon>
+      </span>
+      <input
+        id="nit"
+        formControlName="nit"
+        type="text"
+        placeholder="Ej. 12345678-1"
+        maxlength="16"
+        class="form-input w-full border rounded-r-md py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+    </div>
+    @if(providerForm.get('nit')?.invalid && providerForm.get('nit')?.touched){
+    @if(providerForm.get('nit')?.errors?.['required']){
+    <small class="text-pink-700">El campo es requerido</small>
+    }@else if (providerForm.get('nit')?.errors?.['minlength']) {
+    <small class="text-pink-700">El campo debe tener minimo 8 digitos</small>
+    }@else if (providerForm.get('nit')?.errors?.['pattern']) {
+    <small class="text-pink-700"
+      >Solo se permiten números y el símbolo de guion (-).</small
+    >
+    }@else if (providerForm.get('nit')?.errors?.['maxlength']){
+    <small class="text-pink-700">No se permiten mas de 16 caracteres</small>
+    } }
+  </div>
+
+  <div class="mb-5">
+    <label for="phone" class="text-gray-600 font-semibold"
+      >Número de celular</label
+    >
+    <div class="flex">
+      <span
+        class="inline-flex items-center px-3 border border-r-0 rounded-l-md bg-gray-200"
+      >
+        <fa-icon [icon]="faPhone"></fa-icon>
+      </span>
+      <input
+        id="phone"
+        formControlName="phone"
+        type="text"
+        placeholder="Ej. 300XXX0000"
+        class="form-input w-full border rounded-r-md py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+    </div>
+
+    @if(providerForm.get('phone')?.invalid &&
+    providerForm.get('phone')?.touched){
+    @if(providerForm.get('phone')?.errors?.['required']){
+    <small class="text-pink-700">El campo es requerido</small>
+    }@else if (providerForm.get('phone')?.errors?.['pattern']) {
+    <small class="text-pink-700"
+      >El campo no puede contener letras ni caracteres especiales</small
+    >
+    } @else if (providerForm.get('phone')?.errors?.['minlength']) {
+    <small class="text-pink-700">El campo debe tener minimo 8 digitos</small>
+    } @else if (providerForm.get('phone')?.errors?.['maxlength']) {
+    <small class="text-pink-700"
+      >El campo no puede tener mas de 11 caracteres</small
+    >
+    } }
+  </div>
+
+  <div class="mb-5">
+    <label for="country" class="text-gray-600 font-semibold"
+      >País</label
+    >
+    <div class="flex">
+      <span
+        class="inline-flex items-center px-3 border border-r-0 rounded-l-md bg-gray-200"
+      >
+        <fa-icon [icon]="faGlobe"></fa-icon>
+      </span>
+      <input
+        type="text"
+        name="country"
+        id="country"
+        formControlName="country_id"
+        [value]="countrySelected"
+        (click)="showOverlay($event, 'country')"
+        class="form-input w-full border rounded-r-md py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        placeholder="Selecciona una opción"
+        readonly
+      />
+    </div>
+    @if(providerForm.get('country_id')?.invalid &&
+    providerForm.get('country_id')?.touched){
+    @if(providerForm.get('country_id')?.errors?.['required']){
+    <small class="text-pink-700">El campo es requerido</small>
+    }@else if(providerForm.get('country_id')?.errors?.['maxlength']){
+      <small class="text-pink-700">El nombre del país es demasiado largo</small>
+    }
+   }
+    <p-overlayPanel
+      #overlayCountry
+      [style]="{
+        width: overlayWidth,
+        maxHeight: overlayMaxHeight,
+        overflowY: 'scroll'
+      }"
+    >
+      <div class="flex flex-col sm:flex-row">
+        <div class="w-full">
+          <ul class="list-none p-2 w-full">
+            <li
+              class="p-2 hover:bg-gray-200 hover:rounded-md cursor-pointer flex items-center"
+              *ngFor="let country of countries"
+              (click)="selectCategory(country.id, 'country')"
+            >
+              {{ country.name }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </p-overlayPanel>
+  </div>
+
+  <div class="mb-5">
+    <label for="state" class="text-gray-600 font-semibold"
+      >Departamento/Estado</label
+    >
+    <div class="flex">
+      <span
+        class="inline-flex items-center px-3 border border-r-0 rounded-l-md bg-gray-200"
+      >
+        <fa-icon [icon]="faMap"></fa-icon>
+      </span>
+      <input
+        type="text"
+        name="state"
+        id="state"
+        formControlName="state_id"
+        [value]="stateSelected"
+        (click)="showOverlay($event, 'state')"
+        class="form-input w-full border rounded-r-md py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        placeholder="Selecciona una opción"
+        readonly
+      />
+    </div>
+    @if(providerForm.get('state_id')?.invalid &&
+    providerForm.get('state_id')?.touched){
+    @if(providerForm.get('state_id')?.errors?.['required']){
+    <small class="text-pink-700">El campo es requerido</small>
+    }@else if(providerForm.get('state_id')?.errors?.['maxlength']){
+      <small class="text-pink-700">El nombre del estado es demasiado largo</small>
+    }
+   }
+    <p-overlayPanel
+      #overlayState
+      [style]="{
+        width: overlayWidth,
+        maxHeight: overlayMaxHeight,
+        overflowY: 'scroll'
+      }"
+    >
+      <div class="flex flex-col sm:flex-row">
+        <div class="w-full">
+          <ul class="list-none p-2 w-full">
+            <li
+              class="p-2 hover:bg-gray-200 hover:rounded-md cursor-pointer flex items-center"
+              *ngFor="let state of states"
+              (click)="selectCategory(state.id, 'state')"
+            >
+              {{ state.name }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </p-overlayPanel>
+  </div>
+
+  <div class="mb-5">
+    <label for="city" class="text-gray-600 font-semibold"
+      >Ciudad</label
+    >
+    <div class="flex">
+      <span
+        class="inline-flex items-center px-3 border border-r-0 rounded-l-md bg-gray-200"
+      >
+        <fa-icon [icon]="faCity"></fa-icon>
+      </span>
+      <input
+        type="text"
+        name="city"
+        id="city"
+        formControlName="city_id"
+        [value]="citySelected"
+        (click)="showOverlay($event, 'city')"
+        class="form-input w-full border rounded-r-md py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        placeholder="Selecciona una opción"
+        readonly
+      />
+    </div>
+    @if(providerForm.get('city_id')?.invalid &&
+    providerForm.get('city_id')?.touched){
+    @if(providerForm.get('city')?.errors?.['required']){
+    <small class="text-pink-700">El campo es requerido</small>
+    }@else if(providerForm.get('city_id')?.errors?.['maxlength']){
+      <small class="text-pink-700">El nombre de la ciudad es demasiado largo</small>
+    }
+   }
+    <p-overlayPanel
+      #overlayCity
+      [style]="{
+        width: overlayWidth,
+        maxHeight: overlayMaxHeight,
+        overflowY: 'scroll'
+      }"
+    >
+      <div class="flex flex-col sm:flex-row">
+        <div class="w-full">
+          <ul class="list-none p-2 w-full">
+            <li
+              class="p-2 hover:bg-gray-200 hover:rounded-md cursor-pointer flex items-center"
+              *ngFor="let city of cities"
+              (click)="selectCategory(city.id, 'city')"
+            >
+              {{ city.name }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </p-overlayPanel>
+  </div>
+
+  <div class="mb-5">
+    <label for="address" class="text-gray-600 font-semibold">Dirección</label>
+    <div class="flex">
+      <span
+        class="inline-flex items-center px-3 border border-r-0 rounded-l-md bg-gray-200"
+      >
+        <fa-icon [icon]="faMapMarkedAlt"></fa-icon>
+      </span>
+      <input
+        id="address"
+        formControlName="address"
+        type="text"
+        placeholder="Ej. Calle 94 #7-12B, Malvinas, B/quilla/Atlántico"
+        maxlength="50"
+        class="form-input w-full border rounded-r-md py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+    </div>
+
+    @if(providerForm.get('address')?.invalid &&
+    providerForm.get('address')?.touched){
+    @if(providerForm.get('address')?.errors?.['required']){
+    <small class="text-pink-700">El campo es requerido</small>
+    } @else if (providerForm.get('address')?.errors?.['maxlength']) {
+    <small class="text-pink-700"
+      >El campo no puede tener mas de 11 caracteres</small
+    >
+    } }
+  </div>
+
+ <div class="mb-5">
+  <label for="cities" class="text-gray-600 font-semibold"
+      >Preferencia de ciudades
+    </label>
+  <div class="flex">
+    <span
+        class="inline-flex items-center px-3 border border-r-0 rounded-l-md bg-gray-200"
+      >
+        <fa-icon [icon]="faCity"></fa-icon>
+      </span>
+      <div class="form-input w-full border rounded-r-md px-1 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <p-multiSelect
+      [options]="allCities"
+      id="cities"
+      formControlName="cities_preferences"
+      optionLabel="name"
+      [style]="{ width: '100%' }"
+      placeholder="Selecccionar ciudades"/>
+      </div>
+  </div>
+ </div>
+
+  <div class="mb-5">
+    <label for="allowed_payment_method" class="text-gray-600 font-semibold"
+      >Medio de pago permitido</label
+    >
+    <div class="flex">
+      <span
+        class="inline-flex items-center px-3 border border-r-0 rounded-l-md bg-gray-200"
+      >
+        <fa-icon [icon]="faCreditCard"></fa-icon>
+      </span>
+      <input
+        type="text"
+        name="allowed_payment_method"
+        id="allowed_payment_method"
+        formControlName="allowed_payment_method"
+        (click)="showOverlay($event, 'paymentMethod')"
+        class="form-input w-full border rounded-r-md py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        placeholder="Selecciona una opción"
+        readonly
+      />
+    </div>
+    @if(providerForm.get('allowed_payment_method')?.invalid &&
+    providerForm.get('allowed_payment_method')?.touched){
+    @if(providerForm.get('allowed_payment_method')?.errors?.['required']){
+    <small class="text-pink-700">El campo es requerido</small>
+    } }
+    <p-overlayPanel
+      #overlayPaymentMethod
+      [style]="{
+        width: overlayWidth,
+        maxHeight: overlayMaxHeight,
+        overflowY: 'scroll'
+      }"
+    >
+      <div class="flex flex-col sm:flex-row">
+        <div class="w-full">
+          <ul class="list-none p-2 w-full">
+            <li
+              class="p-2 hover:bg-gray-200 hover:rounded-md cursor-pointer flex items-center"
+              *ngFor="let paymentMethod of allowedPaymentMethodsList"
+              (click)="selectCategory(paymentMethod, 'paymentMethod')"
+            >
+              {{ paymentMethod }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </p-overlayPanel>
+  </div>
+
+  <div class="relative z-0 w-full mb-5 group">
+    <label for="percentage_of_rent" class="text-gray-600 font-semibold"
+      >Valor mínimo para reservar (%)
+    </label>
+    <div class="flex">
+      <span
+        class="inline-flex items-center font-extrabold px-3 border border-r-0 rounded-l-md bg-gray-200"
+      >
+        %
+      </span>
+      <input
+        type="text"
+        name="percentage_of_rent"
+        id="percentage_of_rent"
+        [value]="valueForPercentage"
+        class="form-input w-full border rounded-r-md py-3 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        placeholder="Ej. 20%"
+        (input)="formatPercentage($event)"
+      />
+    </div>
+    @if(providerForm.get('percentage_of_rent')?.invalid &&
+    providerForm.get('percentage_of_rent')?.touched){
+    @if(providerForm.get('percentage_of_rent')?.errors?.['required']){
+    <small class="text-pink-700">El campo es requerido</small>
+    } }
+  </div>
+</form>

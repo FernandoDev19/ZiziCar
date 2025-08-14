@@ -1,0 +1,13 @@
+@if(loading$){
+  <div class="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50" style="z-index: 1100;">
+    <div class="loader"></div>
+  </div>
+}
+
+<app-alert></app-alert>
+
+<app-header-nav></app-header-nav>
+<main class="mx-auto">
+  <router-outlet></router-outlet>
+</main>
+<app-footer></app-footer>

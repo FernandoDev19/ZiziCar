@@ -1,0 +1,7 @@
+model ZIC_ADM_TRANSMISSION {
+  id               String           @id @default(dbgenerated("(uuid())"))
+  name             String           @unique(map: "name")
+  image_url        String
+  ZIC_ADM_QUOTES   ZIC_ADM_QUOTES[]
+  ZIC_REQ_REQUESTS Request[]
+}

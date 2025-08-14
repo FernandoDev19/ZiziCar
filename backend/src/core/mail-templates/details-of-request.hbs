@@ -1,0 +1,65 @@
+<html lang='es'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>Confirmación de la reserva | ZiziCar</title>
+  </head>
+  <body>
+    <h1 style="font-weight: bold;">Confirmación de reserva!</h1>
+    <p style="font-size: 1.2rem;">Aqui tienes la información:</p><br>
+
+    <h2 style="font-weight: bolder;">1- Datos de la reserva</h2>
+    <p style="font-size: 1.2rem;">Detalles:</p>
+    <ul>
+        <li><strong>Ciudad de entrega: </strong>{{ entryCity }}</li>
+        <li><strong>Ciudad de devolución: </strong>{{ devolutionCity }}</li>
+        <li><strong>Fecha y hora de recogida: </strong>{{ entryDateTime }}</li>
+        <li><strong>Fecha y hora de devolución: </strong>{{ devolutionDateTime }}</li>
+        <li><strong>Días de renta: </strong>{{ daysOfRent }}</li>
+        <li><strong>Creación de reserva: </strong>{{ createdAt }}</li>
+    </ul>
+
+    <p style="font-size: 1.2rem;">Detalles del auto:</p>
+    <ul>
+        <li><strong>Auto reservado: </strong>{{ vehicle }}</li>
+        <li><strong>Tipo de transmisión: </strong>{{ transmission }}</li>
+        <li><strong>Modelo: </strong>{{ model }} en adelante</li>
+    </ul>
+    
+    <p style="font-size: 1.2rem;">Valores de la renta:</p>
+    <ul>
+        <li><strong>Total a pagar: </strong>{{ totalValue }}</li>
+        <li><strong>Reserva con: </strong>{{ percentage_of_total_value }}</li>
+      <li><strong>Saldo pendiente: </strong>{{ outstandingBalance }} <br> <span style="color: orange;">Se pagan al momento de recibir el carro</span></li>
+    </ul>
+    
+    <p style="font-size: 1.2rem;">Condiciones de la renta:</p>
+    <p style='font-size: 1rem;'>Presentar:</p>
+    <ul>
+      <li>Cédula original y/o pasaporte.</li>
+      <li>Licencia de conducir vigente (original) en Documento</li>
+      <li>Tarjeta de crédito (Titular debe estar presente)</li>
+    </ul>
+    <br>
+    
+    <h2 style="font-weight: bolder;">2- Datos de la Agencia <br> que le entregara su vehículo</h2>
+    <ul>
+        <li><strong>Nombre de la agencia: </strong>{{ providerName }}</li>
+        <li><strong>Correo electrónico: </strong>{{ providerEmail }}</li>
+        <li><strong>Teléfono de contacto: </strong>{{ providerPhone }}</li>
+        <li><strong>Ciudad: </strong>{{ providerCity }}</li>
+        <li><strong>Dirección: </strong>{{ providerAddress }}</li>
+    </ul>
+    <br>
+    
+    <h2 style="font-weight: bolder;">3- Datos del cliente</h2>
+    <ul>
+        <li><strong>Nombre del cliente: </strong>{{ customerName }}</li>
+        <li><strong>Correo electrónico: </strong>{{ customerEmail || 'No disponible' }}</li>
+        <li><strong>Teléfono de contacto: </strong>{{ customerPhone }}</li>
+        <li><strong>N. de documento o pasaporte: </strong>{{ customerIdentification }}<li>
+        <li><strong>Ciudad: </strong>{{ customerCity }}</li>
+        <li><strong>Dirección: </strong>{{ customerAddress }}</li>
+    </ul>
+  </body>
+</html>

@@ -1,0 +1,192 @@
+<div
+  class="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center"
+  style="z-index: 5"
+>
+  <!-- Contenedor del Modal -->
+  <div
+    class="bg-white rounded-lg shadow-lg w-lg w-full px-6 py-8 relative overflow-y-auto"
+    style="max-height: 95%"
+  >
+    <!-- Botón de Cerrar -->
+    <button
+      style="z-index: 2"
+      class="absolute top-0 right-0 mt-4 mr-4 text-gray-500 hover:text-gray-700"
+      (click)="toggleModal('quote')"
+    >
+      ✖️
+    </button>
+    <p-table
+      [value]="quotesData"
+      [paginator]="true"
+      [rows]="5"
+      [tableStyle]="{ 'min-width': '50rem' }"
+      [rowsPerPageOptions]="[5, 10, 20]"
+      sortField="created_at"
+      [sortOrder]="-1"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 25%">N°</th>
+          <th style="width: 25%" pSortableColumn="provider_name">Proveedor</th>
+          <th pSortableColumn="customer_name" style="width: 25%">
+            Nombre cliente
+          </th>
+          <th pSortableColumn="phone_client" style="width: 25%">
+            Celular del cliente
+          </th>
+          <th pSortableColumn="rent" style="width: 25%">Valor renta</th>
+          <th pSortableColumn="total_value" style="width: 25%">Valor total</th>
+          <th pSortableColumn="brand" style="width: 25%">Vehículo</th>
+          <th pSortableColumn="transmission" style="width: 25%">transmisión</th>
+          <th pSortableColumn="model" style="width: 25%">Modelo</th>
+          <th pSortableColumn="percentage_in_values" style="width: 25%">
+            Porcentaje en valores
+          </th>
+          <th pSortableColumn="comments" style="width: 25%">Comentarios</th>
+          <th pSortableColumn="created_at" style="width: 25%">
+            Fecha de creación
+          </th>
+          <th style="width: 25%">Acciones</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-quote let-rowIndex="rowIndex">
+        <tr>
+          <td>{{ rowIndex + 1 }}</td>
+          <!-- <td><button
+          type="button"
+          (click)="doAction('showProvider', quote.renter_id)"
+          class="py-2 px-3 bg-green-300 hover:bg-green-400 border rounded-md"
+          style="text-wrap: nowrap"
+        >
+          Ver Proveedor
+        </button></td> -->
+          <td>{{ quote.provider_name }}</td>
+          <td>{{ quote.customer_name }}</td>
+          <td>{{ quote.phone_client }}</td>
+          <td>{{ quote.rent | currency : "COP" : "symbol" : "1.0-0" }}</td>
+          <td>
+            {{ quote.total_value | currency : "COP" : "symbol" : "1.0-0" }}
+          </td>
+          <td>{{ quote.brand }}</td>
+          <td>{{ quote.transmission }}</td>
+          <td>{{ quote.model }}</td>
+          <td>
+            {{
+              quote.percentage_in_values | currency : "COP" : "symbol" : "1.0-0"
+            }}
+          </td>
+          <td>{{ quote.comments ?? "No hay comentarios" }}</td>
+          <td>{{ quote.created_at | date : "dd/MM/yyyy HH:mm" }}</td>
+          <td>
+            <div class="flex">
+              <button
+                type="button"
+                (click)="toggleModal('details', quote.id)"
+                class="py-2 px-3 bg-white hover:bg-gray-100 border rounded-l-md"
+                style="text-wrap: nowrap"
+              >
+                Ver todos los detalles
+              </button>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+    <div
+    *ngIf="isDetailsModalVisible"
+      class="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center"
+      style="z-index: 5"
+    >
+      <!-- Contenedor del Modal -->
+      <div
+        class="bg-white rounded-lg shadow-lg w-lg w-full  px-6 py-8 relative overflow-y-auto"
+        style="max-height: 95%; width: 500px;"
+      >
+        <!-- Botón de Cerrar -->
+        <button
+          style="z-index: 2"
+          class="absolute top-0 right-0 mt-4 mr-4 text-gray-500 hover:text-gray-700"
+          (click)="toggleModal('details')"
+        >
+          ✖️
+        </button>
+        <h1 class="text-center text-2xl font-extrabold text-gray-700">Detalles de cotización</h1>
+        <ul class="p-0 mb-3 text-gray-600">
+          <div class="flex items-center justify-center my-4">
+            <div class="border-t border-dotted flex-grow border-gray-400"></div>
+            <span class="mx-4 font-bold text-gray-400" title="Contactos">
+              Contactos
+            </span>
+            <div class="border-t border-dotted flex-grow border-gray-400"></div>
+          </div>
+          <li><strong>ID:</strong> {{ quoteData.id }}</li>
+          <li><strong>Nombre del proveedor:</strong> {{ quoteData.provider_name }}</li>
+          <li><strong>Numero del proveedor:</strong> {{ quoteData.provider_phone }}</li>
+          <li><strong>Nombre del cliente:</strong> {{ quoteData.customer_name }}</li>
+          <li><strong>Numero del cliente:</strong> {{ quoteData.phone_client }}</li>
+          <div class="flex items-center justify-center my-4">
+            <div class="border-t border-dotted flex-grow border-gray-400"></div>
+            <span class="mx-4 font-bold text-gray-400" title="Valores">
+              Valores
+            </span>
+            <div class="border-t border-dotted flex-grow border-gray-400"></div>
+          </div>
+          <li><strong>Valor renta:</strong> {{ quoteData.rent  | currency : "COP" : "symbol" : "1.0-0" }}</li>
+          <li><strong>Valor hora extra:</strong> {{ quoteData.overtime  | currency : "COP" : "symbol" : "1.0-0" }}</li>
+          <li><strong>Valor entrega:</strong> {{ quoteData.home_delivery | currency : "COP" : "symbol" : "1.0-0" }}</li>
+          <li><strong>Valor recogida:</strong> {{ quoteData.home_collection | currency : "COP" : "symbol" : "1.0-0" }}</li>
+          <li><strong>Valor recogida o devolución en distinta ciudad:</strong> {{ quoteData.return_or_collection_different_city | currency : "COP" : "symbol" : "1.0-0" }}</li>
+          <li><strong>Valor total:</strong> {{ quoteData.total_value | currency : "COP" : "symbol" : "1.0-0" }}</li>
+          <div class="flex items-center justify-center my-4">
+            <div class="border-t border-dotted flex-grow border-gray-400"></div>
+            <span class="mx-4 font-bold text-gray-400" title="Vehiculo">
+              Vehiculo
+            </span>
+            <div class="border-t border-dotted flex-grow border-gray-400"></div>
+          </div>
+          <li><strong>Vehiculo:</strong> {{ quoteData.brand }}</li>
+          <li><strong>Tipo de transmision:</strong> {{ quoteData.transmission }}</li>
+          <li><strong>Modelo:</strong> {{ quoteData.model }}</li>
+          <li><strong>Color</strong> {{ quoteData.color }}</li>
+          <li><strong>Terminacion de placa:</strong> {{ quoteData.plate_end_in }}</li>
+          <div class="flex items-center justify-center my-4">
+            <div class="border-t border-dotted flex-grow border-gray-400"></div>
+            <span class="mx-4 font-bold text-gray-400" title="Condiciones">
+              Condiciones
+            </span>
+            <div class="border-t border-dotted flex-grow border-gray-400"></div>
+          </div>
+          <li><strong>Garantia</strong> {{ quoteData.value_to_block_on_credit_card | currency : "COP" : "symbol" : "1.0-0" }}</li>
+          <li><strong>Metodo de pago permitido:</strong> {{ quoteData.allowed_payment_method }}</li>
+          <li><strong>Kilometros disponibles:</strong> {{ quoteData.available_kilometers }}</li>
+          <div class="flex items-center justify-center my-4">
+            <div class="border-t border-dotted flex-grow border-gray-400"></div>
+            <span class="mx-4 font-bold text-gray-400" title="Otros detalles">
+              Otros detalles
+            </span>
+            <div class="border-t border-dotted flex-grow border-gray-400"></div>
+          </div>
+          <li><strong>Porcentaje de renta:</strong> {{ quoteData.percentage_of_total_value }} ({{ quoteData.percentage_in_values | currency : "COP" : "symbol" : "1.0-0" }})</li>
+          <li><strong>Comentarios:</strong> {{ quoteData.comments }}</li>
+          <li><strong>Fecha de creación:</strong> {{ quoteData.created_at  | date:'dd/MM/yyyy HH:mm' }}</li>
+        </ul>
+        <div class="flex justify-end">
+          <button
+            class="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded"
+            (click)="toggleModal('details')"
+          >
+            Cerrar Modal
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="flex justify-end">
+      <button
+        class="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded"
+        (click)="toggleModal('quote')"
+      >
+        Cerrar Modal
+      </button>
+    </div>
+  </div>
+</div>

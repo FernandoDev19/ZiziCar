@@ -1,0 +1,771 @@
+<form [formGroup]="vehicleForm">
+  <div class="flex flex-col gap-1 md:gap-3">
+    <!-- Contenedor de Gamma y Transmission inputs -->
+    <div
+      [ngClass]="{
+        'md:border-primary md:ring-2 md:ring-primary':
+          vehicleForm.get('gamma_id')?.invalid &&
+          vehicleForm.get('transmission_id')?.invalid
+      }"
+      class="flex flex-col gap-2 md:py-1 md:px-6 px-0 w-full rounded-full md:flex-row md:border md:border-lettersGray md:gap-1 md:focus-within:border-primary md:focus-within:ring-2 md:focus-within:ring-primary"
+    >
+      <!-- Input Gamma -->
+      <div
+        [ngClass]="{
+          'border-primary ring-2 ring-primary':
+            vehicleForm.get('gamma_id')?.invalid && isMobile
+        }"
+        class="flex items-center gap-2 w-full md:w-1/2 border md:border-0 border-lettersGray focus-within:border-primary md:focus-within:border-white focus-within:ring-2 focus-within:ring-primary md:focus-within:ring-white rounded-full"
+      >
+        <div class="h-full flex items-center w-1/6">
+          <img
+            style="min-height: 30px; min-width: 30px"
+            class="mx-auto"
+            width="30"
+            height="30"
+            src="/icons/gamma-icon.svg"
+          />
+        </div>
+        <div
+          class="flex flex-col w-5/6"
+          #vehicleTypeContainer
+          (click)="togglePopover('gamma', $event)"
+        >
+          <label
+            for="gammaSelect"
+            class="text-start text-lettersGray dark:text-neutral-400 font-bold text-md"
+            (click)="togglePopover('gamma', $event)"
+          >
+            Elige un vehículo o gama <span class="text-red-500">*</span>
+          </label>
+          <input
+            id="gammaSelect"
+            class="text-lettersGray dark:text-gray-400 text-lg bg-transparent focus-visible:outline-none"
+            type="text"
+            placeholder="Elige tipo de gama"
+            formControlName="gamma_id"
+            [value]="gammaSelected.name"
+            readonly
+          />
+        </div>
+        <p-popover
+          #popoverGamma
+          [style]="{ width: isMobile ? overlayWidth : '35rem' }"
+        >
+          <div class="flex gap-2 overlay-max-size">
+            <!-- Contenedor izquierdo -->
+            <div class="md:w-1/2 w-full overflow-y-auto max-h-[300px]">
+              <ul class="list-none p-2 rounded-md w-full text-lettersGray">
+                <li
+                  class="p-2 hover:bg-gray-200 hover:rounded-md cursor-pointer"
+                  *ngFor="let gamma of gammas"
+                  (mouseenter)="changeImage('gamma', gamma.id)"
+                  (click)="selectOptionOfPopover('gamma', gamma.id)"
+                >
+                  <div class="flex gap-1 items-center">
+                    <fa-icon [icon]="faCar" class="text-lettersGray"></fa-icon
+                    >{{ gamma.name }}
+                  </div>
+                  <small>
+                    Promedio
+                    {{
+                      getAveragePriceForGamma(gamma.id)
+                        ? (getAveragePriceForGamma(gamma.id)
+                          | currency : "COP" : "symbol" : "1.0-0")
+                        : "Calculando..."
+                    }}
+                  </small>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Contenedor derecho -->
+            <div
+              [ngClass]="{ hidden: !gammaSelected.image || isMobile }"
+              class="sticky top-0 w-1/2 flex flex-col items-center justify-center text-lettersGray"
+            >
+              <img
+                class="object-contain max-w-full"
+                [src]="gammaSelected.image"
+                style="max-height: 150px"
+              />
+              <p class="text-lettersGray font-bold">
+                Precio promedio del mercado:
+              </p>
+              {{
+                gammaSelected.average_price
+                  ? (gammaSelected.average_price
+                    | currency : "COP" : "symbol" : "1.0-0")
+                  : "Calculando..."
+              }}
+            </div>
+          </div>
+        </p-popover>
+      </div>
+
+      <!-- Input Transmission -->
+      <div
+        *ngIf="!isMobile || vehicleForm.get('gamma_id')?.valid"
+        [ngClass]="{
+          'border-primary ring-2 ring-primary':
+            vehicleForm.get('transmission_id')?.invalid && isMobile
+        }"
+        class="flex items-center gap-2 w-full md:w-1/2 border md:border-0 border-lettersGray focus-within:border-primary md:focus-within:border-white focus-within:ring-2 focus-within:ring-primary md:focus-within:ring-white rounded-full"
+      >
+        <div class="h-full flex items-center w-1/6">
+          <img
+            style="min-height: 30px; min-width: 30px"
+            class="mx-auto"
+            width="30"
+            height="30"
+            src="/icons/transmission-icon.svg"
+          />
+        </div>
+        <div
+          class="flex flex-col w-5/6"
+          (click)="togglePopover('transmission', $event)"
+        >
+          <label
+            for="transmissionSelect"
+            class="text-start text-lettersGray dark:text-neutral-400 font-bold text-md"
+            (click)="togglePopover('transmission', $event)"
+          >
+            Tipo de transmisión o caja <span class="text-red-500">*</span>
+          </label>
+          <input
+            id="transmissionSelect"
+            class="text-lettersGray dark:text-gray-400 text-lg bg-transparent focus-visible:outline-none"
+            type="text"
+            placeholder="Elige tipo de transmisión"
+            formControlName="transmission_id"
+            [value]="transmissionSelected.name"
+            readonly
+          />
+        </div>
+
+        <p-popover
+          #popoverTransmission
+          [style]="{ width: isMobile ? overlayWidth : '20rem' }"
+        >
+          <div class="flex gap-2 overlay-max-size">
+            <div class="w-1/2">
+              <ul class="list-none p-2 rounded-md w-full">
+                <li
+                  class="p-2 hover:bg-gray-200 hover:rounded-md cursor-pointer"
+                  *ngFor="let transmission of transmissions"
+                  (mouseenter)="changeImage('transmission', transmission.id)"
+                  (click)="
+                    selectOptionOfPopover('transmission', transmission.id)
+                  "
+                >
+                  <div class="flex items-center">
+                    {{ transmission.name }}
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div
+              [ngClass]="{ hidden: !transmissionSelected.image || isMobile }"
+              class="sticky top-0 w-1/2 flex flex-col items-center justify-center"
+            >
+              <img
+                class="object-contain max-w-full"
+                [src]="transmissionSelected.image"
+                style="max-height: 100px"
+              />
+            </div>
+          </div>
+        </p-popover>
+      </div>
+    </div>
+    <!-- Errores de Gamma y Transmission -->
+    <div class="md:flex md:flex-row flex-col gap-3">
+      @if(vehicleForm.get('gamma_id')?.invalid &&
+      vehicleForm.get('gamma_id')?.touched){
+      @if(vehicleForm.get('gamma_id')?.errors?.['required']){
+      <small class="text-sm text-red-500 w-full md:w-1/2"
+        >Este campo es obligatorio</small
+      >
+      } } @else {
+      <div class="w-full md:w-1/2"></div>
+      } @if(vehicleForm.get('transmission_id')?.invalid &&
+      vehicleForm.get('transmission_id')?.touched){
+      @if(vehicleForm.get('transmission_id')?.errors?.['required']){
+      <small class="text-sm text-red-500 w-full md:w-1/2"
+        >Este campo es obligatorio</small
+      >
+      } } @else {
+      <div class="w-full md:w-1/2"></div>
+      }
+    </div>
+
+    <!-- Contenedor de Entry city y entry devolution inputs -->
+    <div
+      *ngIf="
+        vehicleForm.get('gamma_id')?.valid &&
+        vehicleForm.get('transmission_id')?.valid
+      "
+      [ngClass]="{
+        'md:border-primary md:ring-2 md:ring-primary':
+          vehicleForm.get('id_entry_city')?.invalid &&
+          vehicleForm.get('id_devolution_city')?.invalid
+      }"
+      class="flex flex-col gap-2 md:py-1 md:px-6 px-0 w-full rounded-full md:flex-row md:border md:border-lettersGray md:gap-1 md:focus-within:border-primary md:focus-within:ring-2 md:focus-within:ring-primary"
+    >
+      <!-- Input Entry City -->
+      <div
+        class="flex items-center gap-2 w-full md:w-1/2 border md:border-0 border-lettersGray focus-within:border-primary md:focus-within:border-white focus-within:ring-2 focus-within:ring-primary md:focus-within:ring-white rounded-full"
+        [ngClass]="{
+          'border-primary ring-2 ring-primary':
+            vehicleForm.get('id_entry_city')?.invalid && isMobile
+        }"
+      >
+        <div class="h-full flex items-center w-1/6">
+          <img
+            style="min-height: 30px; min-width: 30px"
+            class="mx-auto"
+            width="30"
+            height="30"
+            src="/icons/entry-city-icon.svg"
+          />
+        </div>
+        <div
+          class="flex flex-col w-5/6"
+          (click)="togglePopover('entryCity', $event)"
+        >
+          <label
+            for="entryCitySelect"
+            class="text-start text-lettersGray dark:text-neutral-400 font-bold text-md"
+            (click)="togglePopover('entryCity', $event)"
+          >
+            Ciudad retiro <span class="text-red-500">*</span>
+          </label>
+          <input
+            id="entryCitySelect"
+            class="text-lettersGray dark:text-gray-400 text-lg bg-transparent focus-visible:outline-none"
+            type="text"
+            placeholder="Elige Ciudad de retiro"
+            formControlName="id_entry_city"
+            [value]="entryCitySelected"
+            readonly
+          />
+        </div>
+        <p-popover #popoverEntryCity [style]="{ width: overlayWidth }">
+          <div class="flex items-center gap-1 w-full">
+            <input
+              type="text"
+              id="searchEntryCity"
+              class="text-lettersGray bg-gray-100 p-2 rounded-md dark:text-gray-400 mb-1 w-full"
+              placeholder="Buscar país o ciudad..."
+              (input)="filterCountries($event)"
+            />
+            <label for="searchEntryCity"
+              ><fa-icon [icon]="faSearch" class="text-lettersGray"></fa-icon
+            ></label>
+          </div>
+          <p-listbox
+            [options]="filteredCountries"
+            optionLabel="name"
+            [style]="{ width: '100%' }"
+          >
+            <ng-template let-country pTemplate="item">
+              <div class="text-lettersGray dark:text-gray-400 w-full">
+                <div class="flex items-center justify-center my-4">
+                  <div
+                    class="border-t border-dotted flex-grow border-gray-400"
+                  ></div>
+                  <span class="mx-4 font-bold text-gray-400" title="País">
+                    {{ country.name }}
+                  </span>
+                  <div
+                    class="border-t border-dotted flex-grow border-gray-400"
+                  ></div>
+                </div>
+                <ul class="space-y-3">
+                  <li
+                    *ngFor="let city of country.cities"
+                    (click)="selectOptionOfPopover('entryCity', city.city_id)"
+                  >
+                    {{ city.city_name }}
+                  </li>
+                </ul>
+              </div>
+            </ng-template>
+          </p-listbox>
+        </p-popover>
+      </div>
+
+      <!-- Input devolution city -->
+      <div
+        class="flex items-center gap-2 w-full md:w-1/2 border md:border-0 border-lettersGray focus-within:border-primary md:focus-within:border-white focus-within:ring-2 focus-within:ring-primary md:focus-within:ring-white rounded-full"
+        [ngClass]="{
+          'border-primary ring-2 ring-primary':
+            vehicleForm.get('id_devolution_city')?.invalid && isMobile
+        }"
+      >
+        <div class="h-full flex items-center w-1/6">
+          <img
+            style="min-height: 30px; min-width: 30px"
+            class="mx-auto"
+            width="30"
+            height="30"
+            src="/icons/devolution-city-icon.svg"
+          />
+        </div>
+        <div
+          class="flex flex-col w-5/6"
+          (click)="togglePopover('devolutionCity', $event)"
+        >
+          <label
+            for="devolutionCitySelect"
+            class="text-start text-lettersGray dark:text-neutral-400 font-bold text-md"
+            (click)="togglePopover('devolutionCity', $event)"
+          >
+            Ciudad devolución <span class="text-red-500">*</span>
+          </label>
+          <input
+            id="devolutionCitySelect"
+            class="text-lettersGray dark:text-gray-400 text-lg bg-transparent focus-visible:outline-none"
+            type="text"
+            placeholder="Elige Ciudad de devolución"
+            formControlName="id_devolution_city"
+            [value]="devolutionCitySelected"
+            readonly
+          />
+        </div>
+        <p-popover #popoverDevolutionCity [style]="{ width: overlayWidth }">
+          <div class="flex items-center gap-1 w-full">
+            <input
+              id="searchDevolutionCity"
+              class="text-lettersGray bg-gray-100 p-2 rounded-md dark:text-gray-400 mb-1 w-full"
+              type="text"
+              placeholder="Buscar país o ciudad..."
+              (input)="filterCountries($event)"
+            />
+            <label for="searchDevolutionCity"
+              ><fa-icon [icon]="faSearch" class="text-lettersGray"></fa-icon
+            ></label>
+          </div>
+          <p-listbox
+            [options]="filteredCountries"
+            optionLabel="name"
+            [style]="{ width: '100%' }"
+          >
+            <ng-template let-country pTemplate="item">
+              <div class="text-lettersGray dark:text-gray-400 w-full">
+                <div class="flex items-center justify-center my-4">
+                  <div
+                    class="border-t border-dotted flex-grow border-gray-400"
+                  ></div>
+                  <span class="mx-4 font-bold text-gray-400" title="País">
+                    {{ country.name }}
+                  </span>
+                  <div
+                    class="border-t border-dotted flex-grow border-gray-400"
+                  ></div>
+                </div>
+                <ul class="space-y-3">
+                  <li
+                    *ngFor="let city of country.cities"
+                    (click)="
+                      selectOptionOfPopover('devolutionCity', city.city_id)
+                    "
+                  >
+                    {{ city.city_name }}
+                  </li>
+                </ul>
+              </div>
+            </ng-template>
+          </p-listbox>
+        </p-popover>
+      </div>
+    </div>
+    <!-- Errores de ciudad de retiro y entrega -->
+    <div class="flex gap-3">
+      @if(vehicleForm.get('id_entry_city')?.invalid &&
+      vehicleForm.get('id_entry_city')?.touched){
+      @if(vehicleForm.get('id_entry_city')?.errors?.['required']){
+      <small class="text-sm text-red-500 w-1/2"
+        >Este campo es obligatorio</small
+      >
+      } } @else {
+      <div class="w-1/2"></div>
+      } @if(vehicleForm.get('id_devolution_city')?.invalid &&
+      vehicleForm.get('id_devolution_city')?.touched){
+      @if(vehicleForm.get('id_devolution_city')?.errors?.['required']){
+      <small class="text-sm text-red-500 w-1/2"
+        >Este campo es obligatorio</small
+      >
+      } } @else {
+      <div class="w-1/2"></div>
+      }
+    </div>
+    <!-- Switches para recogida o devolución en aeropuerto -->
+    <div
+      class="flex gap-3"
+      *ngIf="
+        vehicleForm.get('gamma_id')?.valid &&
+        vehicleForm.get('transmission_id')?.valid
+      "
+    >
+      <div
+        class="flex md:flex-row flex-col md:gap-2 items-start text-start ml-3 w-1/2"
+      >
+        <p-toggleswitch
+          id="checkReceiveAtAirport"
+          formControlName="receive_at_airport"
+        />
+        <label for="checkReceiveAtAirport" class="text-lettersGray dark:text-neutral-400"
+          >Recoger <br class="md:hidden" />en aeropuerto</label
+        >
+      </div>
+      <div
+        class="flex md:flex-row flex-col md:gap-2 items-start text-start ml-3 w-1/2"
+      >
+        <p-toggleswitch
+          id="checkReturnsAtAirport"
+          formControlName="returns_at_airport"
+        />
+        <label for="checkReturnsAtAirport" class="text-lettersGray dark:text-gray-400"
+          >Devolver <br class="md:hidden" />en aeropuerto</label
+        >
+      </div>
+    </div>
+
+    <!-- Contenedor de fecha de entrega y devolución inputs -->
+    <div
+      *ngIf="
+        vehicleForm.get('id_entry_city')?.valid &&
+        vehicleForm.get('id_devolution_city')?.valid
+      "
+      [ngClass]="{
+        'md:border-primary md:ring-2 md:ring-primary':
+          vehicleForm.get('entry_date')?.invalid &&
+          vehicleForm.get('devolution_date')?.invalid
+      }"
+      class="flex flex-col gap-2 md:py-1 md:px-6 px-0 w-full rounded-full md:flex-row md:border md:border-lettersGray md:gap-1 md:focus-within:border-primary md:focus-within:ring-2 md:focus-within:ring-primary"
+    >
+      <!-- Input Entry date -->
+      <div
+        class="flex items-center gap-2 w-full md:w-1/2 border md:border-0 border-lettersGray focus-within:border-primary md:focus-within:border-white focus-within:ring-2 focus-within:ring-primary md:focus-within:ring-white rounded-full"
+        [ngClass]="{
+          'border-primary ring-2 ring-primary':
+            vehicleForm.get('entry_date')?.invalid && isMobile
+        }"
+      >
+        <div class="h-full flex items-center w-1/6">
+          <img
+            style="min-height: 30px; min-width: 30px"
+            class="mx-auto"
+            width="30"
+            height="30"
+            src="/icons/entry-date-icon.svg"
+          />
+        </div>
+        <div
+          class="flex flex-col w-5/6"
+          (click)="togglePopover('entryDate', $event)"
+        >
+          <label
+            for="entryDateSelect"
+            class="text-start text-lettersGray dark:text-neutral-400 font-bold text-md"
+            (click)="togglePopover('entryDate', $event)"
+          >
+            Fecha de retiro <span class="text-red-500">*</span>
+          </label>
+          <input
+            id="entryDateSelect"
+            class="text-lettersGray dark:text-gray-400 text-lg bg-transparent focus-visible:outline-none"
+            type="text"
+            placeholder="Fecha de retiro"
+            formControlName="entry_date"
+            [value]="entryDateSelected"
+            readonly
+          />
+          <p-popover
+            #popoverEntryDate
+            [style]="
+              isMobile
+                ? { width: '95%', display: 'flex', justifyContent: 'center' }
+                : { width: 'max-content' }
+            "
+            class="overflow-x-hidden shadow-md"
+          >
+            <p-datepicker
+              id="entryDatePicker"
+              class="max-w-full"
+              (onSelect)="selectOptionOfPopover('entryDate', $event)"
+              [inline]="true"
+              [showWeek]="true"
+              [minDate]="today"
+              [locale]="es"
+            />
+          </p-popover>
+        </div>
+      </div>
+
+      <!-- Input entry time mobile -->
+      <div
+      *ngIf="isMobile"
+      class="flex items-center gap-2 w-full md:w-1/2 border md:border-0 border-lettersGray focus-within:border-primary md:focus-within:border-white focus-within:ring-2 focus-within:ring-primary md:focus-within:ring-white rounded-full"
+      [ngClass]="{
+        'border-primary ring-2 ring-primary':
+          vehicleForm.get('entry_time')?.invalid && isMobile
+      }"
+    >
+      <div class="h-full flex items-center w-1/6">
+        <fa-icon
+          class="mx-auto text-lettersGray text-2xl"
+          [icon]="faClock"
+        ></fa-icon>
+      </div>
+      <div
+        class="flex flex-col w-5/6"
+        (click)="togglePopover('entryTime', $event)"
+      >
+        <label
+          for="entryTimeSelect"
+          class="text-start text-lettersGray dark:text-neutral-400 font-bold text-md"
+          (click)="togglePopover('entryTime', $event)"
+        >
+          Hora de retiro <span class="text-red-500">*</span>
+        </label>
+        <input
+          id="entryTimeSelect"
+          class="text-lettersGray dark:text-gray-400 text-lg bg-transparent focus-visible:outline-none"
+          type="text"
+          placeholder="Elige Hora de entrega"
+          formControlName="entry_time"
+          readonly
+        />
+      </div>
+      <p-popover #popoverEntryTime [style]="{ width: overlayWidth }">
+        <p-listbox
+          [options]="times"
+          [style]="{ width: '100%' }"
+          (onChange)="selectOptionOfPopover('entryTime', $event)"
+        >
+        </p-listbox>
+      </p-popover>
+      </div>
+
+      <!-- Input devolution date -->
+      <div
+        class="flex items-center gap-2 w-full md:w-1/2 border md:border-0 border-lettersGray focus-within:border-primary md:focus-within:border-white focus-within:ring-2 focus-within:ring-primary md:focus-within:ring-white rounded-full"
+        [ngClass]="{
+          'border-primary ring-2 ring-primary': vehicleForm.get('devolution_date')?.invalid && isMobile,
+          'hidden': vehicleForm.get('entry_time')?.invalid && isMobile
+        }"
+      >
+        <div class="h-full flex items-center w-1/6">
+          <img
+            style="min-height: 30px; min-width: 30px"
+            class="mx-auto"
+            width="30"
+            height="30"
+            src="/icons/devolution-date-icon.svg"
+          />
+        </div>
+        <div
+          class="flex flex-col w-5/6"
+          (click)="togglePopover('devolutionDate', $event)"
+        >
+          <label
+            for="devolutionDateSelect"
+            class="text-start text-lettersGray dark:text-neutral-400 font-bold text-md"
+            (click)="togglePopover('devolutionDate', $event)"
+          >
+            Fecha de devolución <span class="text-red-500">*</span>
+          </label>
+          <input
+            id="devolutionDateSelect"
+            class="text-lettersGray dark:text-gray-400 text-lg bg-transparent focus-visible:outline-none"
+            type="text"
+            placeholder="Fecha de devolución"
+            formControlName="devolution_date"
+            [value]="devolutionDateSelected"
+            readonly
+          />
+        </div>
+        <p-popover
+          #popoverDevolutionDate
+          [style]="
+            isMobile
+              ? { width: '95%', display: 'flex', justifyContent: 'center' }
+              : { width: 'max-content' }
+          "
+          class="overflow-x-hidden shadow-md"
+        >
+          <p-datepicker
+            id="devolutionDatePicker"
+            class="max-w-full"
+            (onSelect)="selectOptionOfPopover('devolutionDate', $event)"
+            [inline]="true"
+            [showWeek]="true"
+            [minDate]="minDevolutionDate"
+            [locale]="es"
+          />
+        </p-popover>
+      </div>
+    </div>
+    <!-- Errores de fecha de entrega y devolución -->
+    <div class="flex gap-3">
+      @if(vehicleForm.get('entry_date')?.invalid &&
+      vehicleForm.get('entry_date')?.touched){
+      @if(vehicleForm.get('entry_date')?.errors?.['required']){
+      <small class="text-sm text-red-500 w-1/2"
+        >Este campo es obligatorio</small
+      >
+      } } @else{
+      <div class="w-1/2"></div>
+      } @if(vehicleForm.get('devolution_date')?.invalid &&
+      vehicleForm.get('devolution_date')?.touched){
+      @if(vehicleForm.get('devolution_date')?.errors?.['required']){
+      <small class="text-sm text-red-500 w-1/2"
+        >Este campo es obligatorio</small
+      >
+      } } @else {
+      <div class="w-1/2"></div>
+      }
+    </div>
+
+    <!-- Contenedor de entry time y devolution time inputs -->
+    <div
+      *ngIf="
+        vehicleForm.get('entry_date')?.valid &&
+        vehicleForm.get('devolution_date')?.valid
+      "
+      [ngClass]="{
+        'md:border-primary md:ring-2 md:ring-primary':
+          vehicleForm.get('entry_time')?.invalid &&
+          vehicleForm.get('devolution_time')?.invalid
+      }"
+      class="flex flex-col gap-2 md:py-1 md:px-6 px-0 w-full rounded-full md:flex-row md:border md:border-lettersGray md:gap-1 md:focus-within:border-primary md:focus-within:ring-2 md:focus-within:ring-primary"
+    >
+      <!-- Input entry time PC -->
+      <div
+      *ngIf="!isMobile"
+        class="flex items-center gap-2 w-full md:w-1/2 border md:border-0 border-lettersGray focus-within:border-primary md:focus-within:border-white focus-within:ring-2 focus-within:ring-primary md:focus-within:ring-white rounded-full"
+        [ngClass]="{
+          'border-primary ring-2 ring-primary':
+            vehicleForm.get('entry_time')?.invalid && isMobile
+        }"
+      >
+        <div class="h-full flex items-center w-1/6">
+          <fa-icon
+            class="mx-auto text-lettersGray text-2xl"
+            [icon]="faClock"
+          ></fa-icon>
+        </div>
+        <div
+          class="flex flex-col w-5/6"
+          (click)="togglePopover('entryTime', $event)"
+        >
+          <label
+            for="entryTimeSelect"
+            class="text-start text-lettersGray dark:text-neutral-400 font-bold text-md"
+            (click)="togglePopover('entryTime', $event)"
+          >
+            Hora de retiro <span class="text-red-500">*</span>
+          </label>
+          <input
+            id="entryTimeSelect"
+            class="text-lettersGray dark:text-gray-400 text-lg bg-transparent focus-visible:outline-none"
+            type="text"
+            placeholder="Elige Hora de entrega"
+            formControlName="entry_time"
+            readonly
+          />
+        </div>
+        <p-popover #popoverEntryTime [style]="{ width: overlayWidth }">
+          <p-listbox
+            [options]="times"
+            [style]="{ width: '100%' }"
+            (onChange)="selectOptionOfPopover('entryTime', $event)"
+          >
+          </p-listbox>
+        </p-popover>
+      </div>
+
+      <!-- Input devolution time -->
+      <div
+        class="flex items-center gap-2 w-full md:w-1/2 border md:border-0 border-lettersGray focus-within:border-primary md:focus-within:border-white focus-within:ring-2 focus-within:ring-primary md:focus-within:ring-white rounded-full"
+        [ngClass]="{
+          'border-primary ring-2 ring-primary':
+            vehicleForm.get('devolution_time')?.invalid && isMobile
+        }"
+      >
+        <div class="h-full flex items-center w-1/6">
+          <fa-icon
+            class="mx-auto text-lettersGray text-2xl"
+            [icon]="faClock"
+          ></fa-icon>
+        </div>
+        <div
+          class="flex flex-col w-5/6"
+          (click)="togglePopover('devolutionTime', $event)"
+        >
+          <label
+            for="devolutionTimeSelect"
+            class="text-start text-lettersGray dakr:text-neutral-400 font-bold text-md"
+            (click)="togglePopover('devolutionTime', $event)"
+          >
+            Hora de devolución <span class="text-red-500">*</span>
+          </label>
+          <input
+            id="devolutionTimeSelect"
+            class="text-lettersGray dark:text-gray-400 text-lg bg-transparent focus-visible:outline-none"
+            type="text"
+            placeholder="Elige Hora de devolución"
+            formControlName="devolution_time"
+            readonly
+          />
+        </div>
+        <p-popover #popoverDevolutionTime [style]="{ width: overlayWidth }">
+          <p-listbox
+            [options]="times"
+            [style]="{ width: '100%' }"
+            (onChange)="selectOptionOfPopover('devolutionTime', $event)"
+          >
+          </p-listbox>
+        </p-popover>
+      </div>
+    </div>
+    <!-- Errores para hora de retiro y devolución -->
+    <div class="flex gap-3">
+      @if(vehicleForm.get('entry_time')?.invalid &&
+      vehicleForm.get('entry_time')?.touched){
+      @if(vehicleForm.get('entry_time')?.errors?.['required']){
+      <small class="text-sm text-red-500 w-1/2"
+        >Este campo es obligatorio</small
+      >
+      } } @else{
+      <div class="w-1/2"></div>
+      } @if(vehicleForm.get('devolution_time')?.invalid &&
+      vehicleForm.get('devolution_time')?.touched){
+      @if(vehicleForm.get('devolution_time')?.errors?.['required']){
+      <small class="text-sm text-red-500 w-1/2"
+        >Este campo es obligatorio</small
+      >
+      } } @else{
+      <div class="w-1/2"></div>
+      }
+    </div>
+
+    <!-- Botón continuar -->
+    @if(vehicleForm.get('entry_date')?.valid){
+    <div
+      [ngClass]="vehicleForm.valid ? 'opacity-1' : 'opacity-0'"
+      class="w-full flex justify-end transition-all duration-300 ease"
+    >
+      <button
+        (click)="continue()"
+        [disabled]="vehicleForm.invalid"
+        class="md:!max-w-full md:w-full px-6 py-3 max-w-content bg-primary hover:bg-pink-700 font-bold text-xl text-white rounded-full"
+      >
+        Continuar
+      </button>
+    </div>
+    }
+  </div>
+</form>

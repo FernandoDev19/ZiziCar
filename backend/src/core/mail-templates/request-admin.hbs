@@ -1,0 +1,31 @@
+<html lang='es'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>Solicitud de Alquiler | ZiziCar</title>
+  </head>
+  <body>
+    <h1>¡Hola!</h1>
+    <p>Se ha hecho una nueva solicitud<br />Estos son los detalles: </p>
+    <p><b>Datos del veiculo:</b></p>
+    <ul>
+        <li><strong>Gama: </strong>{{gamma}}</li>
+        <li><strong>Tipo de transmisión (Caja): </strong>{{ transmission }}</li>
+        <li><strong>Ciudad de retiro: </strong>{{ entryCity }} <br>Recoge en el aeropuerto: {{ receiveAtTheAirport }}</li>
+        <li><strong>Fecha y hora de retiro: </strong>{{ entryDateTime }}</li>
+        <li><strong>Ciudad de devolución: </strong>{{ devolutionCity }} <br>Devuelve en el aeropuerto: {{ returnsAtTheAirport }}</li>
+        <li><strong>Fecha y hora de devolución: </strong>{{ devolutionDateTime }}</li>
+    </ul>
+    <br>
+    <p><b>Datos del cliente:</b></p>
+    <ul>
+        <li><strong>Nombre: </strong>{{ name }}</li>
+        <li><strong>Celular: </strong>{{ phone }}</li>
+        <li><strong>Email: </strong>{{ email }}</li>
+    </ul>
+    <br>
+    <p><b>Otros detalles:</b></p>
+    <p><strong>Comentarios: </strong></p>
+    <p>{{ comments }}</p>
+  </body>
+</html>

@@ -1,0 +1,149 @@
+<h1 class="text-gray-700 text-lg font-semibold mb-5">Lista de cotizaciones</h1>
+<p-table
+  [value]="quotes"
+  [paginator]="true"
+  [rows]="5"
+  [tableStyle]="{ 'min-width': '50rem' }"
+  [rowsPerPageOptions]="[5, 10, 20]"
+  sortField="created_at"
+  [sortOrder]="-1"
+>
+  <ng-template pTemplate="header">
+    <tr>
+      <th style="width: 25%">
+        Solicitud
+      </th>
+      <th style="width: 25%">
+        Proveedor
+      </th>
+      <th pSortableColumn="phone_client" style="width: 25%">
+        Celular del cliente
+      </th>
+      <th pSortableColumn="rent" style="width: 25%">
+        Valor renta
+      </th>
+      <th pSortableColumn="total_value" style="width: 25%">
+        Valor total
+      </th>
+      <th pSortableColumn="brand" style="width: 25%">
+        Vehículo
+      </th>
+      <th pSortableColumn="transmission" style="width: 25%">
+        transmisión
+      </th>
+      <th pSortableColumn="model" style="width: 25%">
+        Modelo
+      </th>
+      <th pSortableColumn="color" style="width: 25%">
+        Color
+      </th>
+      <th pSortableColumn="plate_end_in" style="width: 25%">
+        Terminación placa
+      </th>
+      <th pSortableColumn="value_to_block_on_credit_card" style="width: 25%">
+        Valor de Garantia
+      </th>
+      <th pSortableColumn="allowed_payment_method" style="width: 25%">
+        Metodo de pago
+      </th>
+      <th pSortableColumn="available_kilometers" style="width: 25%">
+        Kilometros disponibles
+      </th>
+      <th pSortableColumn="percentage_of_total_value" style="width: 25%">
+        Porcentaje de renta
+      </th>
+      <th pSortableColumn="percentage_in_values" style="width: 25%">
+        Porcentaje en valores
+      </th>
+      <th pSortableColumn="comments" style="width: 25%">
+        Comentarios
+      </th>
+      <th pSortableColumn="created_at" style="width: 25%">
+        Fecha de creación
+      </th>
+      <th style="width: 25%">
+        Acciones
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-quote>
+    <tr>
+      <td><button
+        type="button"
+        (click)="doAction('showRequest', quote.request_id)"
+        class="py-2 px-3 bg-green-300 hover:bg-green-400 border rounded-l-md"
+        style="text-wrap: nowrap"
+      >
+        Ver Solicitud
+      </button></td>
+      <td><button
+        type="button"
+        (click)="doAction('showProvider', quote.renter_id)"
+        class="py-2 px-3 bg-green-300 hover:bg-green-400 border rounded-l-md"
+        style="text-wrap: nowrap"
+      >
+        Ver Proveedor
+      </button></td>
+      <td>{{ quote.phone_client }}</td>
+      <td>{{ quote.rent | currency : 'COP' : 'symbol' : '1.0-0' }}</td>
+      <td>{{ quote.total_value | currency : 'COP' : 'symbol' : '1.0-0' }}</td>
+      <td>{{ quote.brand }}</td>
+      <td>{{ quote.transmission }}</td>
+      <td>{{ quote.model }}</td>
+      <td>{{ quote.color }}</td>
+      <td>{{ quote.plate_end_in }}</td>
+      <td>{{ quote.value_to_block_on_credit_card | currency : 'COP' : 'symbol' : '1.0-0' }}</td>
+      <td>{{ quote.allowed_payment_method }}</td>
+      <td>{{ quote.available_kilometers }}</td>
+      <td>{{ quote.percentage_of_total_value }}</td>
+      <td>{{ quote.percentage_in_values | currency : 'COP' : 'symbol' : '1.0-0' }}</td>
+      <td>{{ quote.comments ?? 'No hay comentarios' }}</td>
+      <td>{{ quote.created_at | date:'dd/MM/yyyy HH:mm' }}</td>
+      <td>
+        <div class="flex">
+          <button
+            type="button"
+            class="py-2 px-3 bg-white hover:bg-gray-100 border rounded-l-md"
+            style="text-wrap: nowrap"
+          >
+            Ver todos los detalles
+          </button>
+          <button
+            (click)="showOverlay($event, 'splitbutton', quote.id)"
+            type="button"
+            class="py-2 px-3 bg-white hover:bg-gray-100 border rounded-r-md"
+            style="text-wrap: nowrap"
+          >
+            <fa-icon [icon]="faCaretDown"></fa-icon>
+          </button>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+<p-overlayPanel #actions [style]="{ width: '250px', maxWidth: '350px' }">
+  <ul>
+    @for(item of splitButtonItems; track item.type){
+    <li class="hover:bg-gray-100">
+      <button (click)="doAction(item.type)" type="button p-0 m-0 border-0">
+        {{ item.label }}
+      </button>
+    </li>
+    }
+  </ul>
+</p-overlayPanel>
+<div *ngIf="isModalVisible" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center" style="z-index: 5;">
+  <!-- Contenedor del Modal -->
+  <div class="bg-white rounded-lg shadow-lg max-w-lg w-full p-6 relative">
+    <!-- Botón de Cerrar -->
+    <button class="absolute top-0 right-0 mt-4 mr-4 text-gray-500 hover:text-gray-700" (click)="doAction('hideModal')">
+      ✖️
+    </button>
+    <!-- Contenido del Modal -->
+    <h2 class="text-2xl font-semibold mb-4">{{ dataModal.title }}</h2>
+    <ul class="mb-4">
+      <li *ngFor="let paragraph of dataModal.paragraphs; let index = index"><strong>{{dataModal.subtitles[index]}}</strong> {{paragraph}}</li>
+    </ul>
+    <button class="bg-blue-500 text-white px-4 py-2 rounded" (click)="doAction('hideModal')">Cerrar Modal</button>
+  </div>
+</div>

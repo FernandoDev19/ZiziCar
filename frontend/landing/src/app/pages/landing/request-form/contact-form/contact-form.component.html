@@ -1,0 +1,209 @@
+<form [formGroup]="contactForm">
+  <div class="mb-3 mt-2">
+    <h1 class="text-3xl font-extrabold text-primary text-extrabold-italic">¡Ya casi terminamos!</h1>
+    <p class="text-lettersGray text-medium-italic text-lg dark:text-neutral-400">Solo faltan tus datos</p>
+  </div>
+  <div class="flex flex-col gap-2">
+    <!-- Name -->
+    <div
+      class="border border-lettersGray rounded-full p-1 flex items-center gap-1 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary w-full"
+    >
+      <div class="h-full w-1/6">
+        <img
+          style="min-height: 30px; min-width: 30px"
+          class="mx-auto"
+          width="30"
+          height="30"
+          src="/icons/people-icon.svg"
+        />
+      </div>
+      <div class="flex flex-col w-full">
+        <label for="name" class="text-start text-lettersGray dark:text-neutral-400 font-bold text-md">
+          Nombre completo <span class="text-red-500">*</span>
+        </label>
+        <input
+          id="name"
+          class="text-lettersGray dark:text-gray-400 text-lg bg-transparent focus-visible:outline-none"
+          type="text"
+          placeholder="Ej. Jaimito Gonzalez..."
+          formControlName="name"
+          maxlength="80"
+        />
+      </div>
+    </div>
+    @if(contactForm.get('name')?.invalid && contactForm.get('name')?.touched){
+    @if(contactForm.get('name')?.errors?.['required']){
+    <small class="text-sm text-red-500">Este campo es obligatorio</small>
+    }@else if(contactForm.get('name')?.errors?.['minlength']){
+    <small class="text-sm text-red-500">El nombre es muy corto</small>
+    }@else if(contactForm.get('name')?.errors?.['maxlength']){
+    <small class="text-sm text-red-500">El nombre es demasiado largo</small>
+    } }
+
+    <!-- Phone -->
+    <div
+      class="border border-lettersGray rounded-full p-1 flex items-center gap-1 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary w-full"
+    >
+      <div class="h-full w-1/6">
+        <img
+          style="min-height: 30px; min-width: 30px"
+          class="mx-auto"
+          width="30"
+          height="30"
+          src="/icons/phone-icon.svg"
+        />
+      </div>
+      <div class="flex flex-col w-full">
+        <label
+          for="phone"
+          class="text-start text-lettersGray dark:text-neutral-400 font-bold text-md"
+        >
+          Número de celular <span class="text-red-500">*</span>
+        </label>
+        <div class="flex space-x-2">
+          <select
+            #prefix
+            class="block text-sm font-semibold text-lettersGray dark:text-gray-400 bg-transparent focus-visible:outline-none border-0"
+          >
+            <option *ngFor="let prefix of prefixs" value="{{ prefix }}">
+              +{{ prefix }}
+            </option>
+          </select>
+          <input
+            id="phone"
+            class="text-lettersGray dark:text-gray-400 text-lg bg-transparent focus-visible:outline-none"
+            type="text"
+            placeholder="Ej. 1234567..."
+            formControlName="phone"
+            maxlength="20"
+          />
+        </div>
+      </div>
+    </div>
+    @if(contactForm.get('phone')?.invalid && contactForm.get('phone')?.touched){
+    @if(contactForm.get('phone')?.errors?.['required']){
+    <small class="text-sm text-red-500">Este campo es obligatorio</small>
+    }@else if(contactForm.get('phone')?.errors?.['pattern']){
+    <small class="text-sm text-red-500"
+      >Solo se aceptan valores numéricos</small
+    >
+    }@else if(contactForm.get('phone')?.errors?.['minlength']){
+    <small class="text-sm text-red-500"
+      >El número de celular es muy corto</small
+    >
+    }@else if(contactForm.get('phone')?.errors?.['maxlength']){
+    <small class="text-sm text-red-500"
+      >El número de celular es demasiado largo</small
+    >
+    } }@else {
+      <small class="text-sm text-yellow-500">Verifique que su teléfono sea correcto. Para poder recibir cotizaciones</small>
+    }
+
+    <!-- Email -->
+    <div
+      class="border border-lettersGray rounded-full p-1 flex items-center gap-1 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary w-full"
+    >
+      <div class="h-full w-1/6">
+        <img
+          style="min-height: 30px; min-width: 30px"
+          class="mx-auto"
+          width="30"
+          height="30"
+          src="/icons/email-icon.svg"
+        />
+      </div>
+      <div class="flex flex-col w-full">
+        <label
+          for="email"
+          class="text-start text-lettersGray dark:text-neutral-400 font-bold text-md"
+        >
+          Correo electrónico
+        </label>
+        <input
+          id="email"
+          class="text-lettersGray dark:text-gray-400 text-lg bg-transparent focus-visible:outline-none"
+          type="text"
+          placeholder="Ej. ejemplo123@ejemplo.eje"
+          formControlName="email"
+          maxlength="200"
+        />
+      </div>
+    </div>
+    @if(contactForm.get('email')?.invalid && contactForm.get('email')?.touched){
+    @if(contactForm.get('email')?.errors?.['email']){
+    <small class="text-sm text-red-500"
+      >El correo electrónico no tiene un formato válido.</small
+    >
+    }@else if(contactForm.get('email')?.errors?.['maxlength']){
+    <small class="text-sm text-red-500">El correo es demasiado largo</small>
+    } }
+
+    <!-- comentarios -->
+    <div
+      class="border border-lettersGray rounded-full flex flex-col py-1 px-4 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary w-full"
+    >
+      <label
+        for="comments"
+        class="text-start text-lettersGray dark:text-neutral-400 font-bold text-md"
+      >
+        Comentarios
+      </label>
+      <textarea
+        id="comments"
+        placeholder="Comentarios..."
+        formControlName="comments"
+        class="text-lettersGray dark:text-gray-400 text-lg bg-transparent focus-visible:outline-none resize-none overflow-hidden"
+        rows="1"
+        maxlength="180"
+        (input)="autoExpand($event)"
+      ></textarea>
+    </div>
+    @if(contactForm.get('name')?.invalid && contactForm.get('name')?.touched){
+    @if(contactForm.get('name')?.errors?.['maxlength']){
+    <small class="text-sm text-red-500">El comentario es demasiado largo</small>
+    } }
+
+    <div class="flex flex-col gap-3 text-start">
+      <h2 class="text-pink-500 font-bold">
+        Requisitos indispensables para <span class="text-primary">rentar</span>
+      </h2>
+      <uL class="pl-5 text-sm" style="list-style: disc">
+        <li class="text-neutral-400">
+          Tarjeta de crédito con cupo disponible o deposito en efectivo para
+          garantía. (El valor va de acuerdo al carro y las políticas de alquiler
+          de cada proveedor)
+        </li>
+        <li class="text-neutral-400">Licencia de conducir vigente</li>
+        <li class="text-neutral-400">Cedula de ciudadania o pasaporte</li>
+      </uL>
+      <div class="flex gap-3">
+        <input
+          name="checkRequest"
+          formControlName="checkRequest"
+          id="requisitos"
+          type="checkbox"
+          class="form-check"
+        />
+        <label for="requisitos">Cumples con los Requisitos</label>
+        @if(contactForm.get('checkRequest')?.invalid &&
+        contactForm.get('checkRequest')?.touched){
+        @if(contactForm.get('checkRequest')?.errors?.['required']){
+        <p class="text-red-400">El campo es requerido</p>
+        } }
+      </div>
+    </div>
+
+    <div
+      [ngClass]="contactForm.valid ? 'opacity-1' : 'opacity-0'"
+      class="w-full flex justify-end transition-all duration-300 ease"
+    >
+      <button
+        (click)="save()"
+        [disabled]="contactForm.invalid"
+        class="px-6 py-3 max-w-content bg-primary hover:bg-pink-700 font-bold text-xl text-white rounded-full"
+      >
+        Buscar
+      </button>
+    </div>
+  </div>
+</form>

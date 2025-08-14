@@ -1,0 +1,79 @@
+<div class="flex bg-gray-100 overflow-hidden" style="max-height: 100vh;">
+  <!-- Sidebar -->
+  <app-sidebar></app-sidebar>
+  <!-- Main content area -->
+  <div class="flex-1 flex flex-col h-full overflow-auto" style="max-height: 100vh;">
+    <div class="sticky top-0" style="z-index: 2;;">
+      <app-header></app-header>
+      <app-sidebar-horizontal></app-sidebar-horizontal>
+    </div>
+    <!-- Main content -->
+    <main class="flex-1 bg-gray-100 p-6">
+      <h2 class="text-2xl font-semibold text-gray-700 mb-6">Inicio</h2>
+      <h1 class="font-semibold text-gray-700 mb-6 text-center text-2xl">Accesos directos</h1>
+      <div class="flex flex-col gap-3 mb-6">
+        <div class="flex flex-col md:flex-row md:justify-center gap-3 mb-3">
+          <p class="text-gray-600"><b>( 123 )</b> : Muestra la cantidad total</p>
+          <p class="text-gray-600"><span class="rounded-full bg-green-400 p-1 inline-block" style="max-height: 2px; max-width: 2px;"></span> : Para Cotizados o Activos</p>
+          <p class="text-gray-600"><span class="rounded-full bg-blue-400 p-1 inline-block" style="max-height: 2px; max-width: 2px;"></span> : Otras respuestas</p>
+          <p class="text-gray-600"><span class="rounded-full bg-gray-400 p-1 inline-block" style="max-height: 2px; max-width: 2px;"></span> : Para solicitudes sin cotizar</p>
+          <p class="text-gray-600" *ngIf="userRole === Role.ADMIN"><span class="rounded-full bg-yellow-400 p-1 inline-block" style="max-height: 2px; max-width: 2px;"></span> : Solicitudes expiradas</p>
+        </div>
+        <div class="flex flex-col md:flex-row wrap justify-evenly gap-3 w-full">
+          <a [routerLink]="['/employees']" *ngIf="userRole === Role.PROVIDER" class="md:w-1/2">
+            <button type="button" class="w-full h-full bg-gray-200 hover:bg-gray-300 p-5 rounded-md">
+              <div class="flex flex-col gap-2">
+                <h1 class="text-center font-extrabold text-gray-700">Empleados ({{ employeesCount }})</h1>
+                <!-- <div class="flex gap-2 justify-evenly">
+                  <div class="flex items-center gap-1">
+                    <span class="rounded-full bg-green-400 p-1 inline-block" style="max-height: 2px; max-width: 2px;"></span>
+                    <p class="text-gray-600 font-semibold">{{ requestsQuotesCount }}</p>
+                  </div>
+                </div> -->
+              </div>
+            </button>
+          </a>
+          <a [routerLink]="['/users-and-roles']" *ngIf="userRole === Role.ADMIN" class="md:w-1/2">
+            <button type="button" class="w-full h-full bg-gray-200 hover:bg-gray-300 p-5 rounded-md">
+              <div class="flex flex-col gap-2">
+                <h1 class="text-center font-extrabold text-gray-700">Usuarios ({{ usersCount }})</h1>
+                <!-- <div class="flex gap-2 justify-evenly">
+                  <div class="flex items-center gap-1">
+                    <span class="rounded-full bg-green-400 p-1 inline-block" style="max-height: 2px; max-width: 2px;"></span>
+                    <p class="text-gray-600 font-semibold">{{ requestsQuotesCount }}</p>
+                  </div>
+                </div> -->
+              </div>
+            </button>
+          </a>
+          <a [routerLink]="['/requests']" class="md:w-1/2">
+            <button type="button" class="w-full h-full bg-gray-200 hover:bg-gray-300 p-5 rounded-md">
+              <div class="flex flex-col gap-2">
+                <h1 class="text-center font-extrabold text-gray-700">Bolsa de oportunidades ( {{ requestsCount }} )</h1>
+                <div class="flex gap-2 justify-evenly">
+                  <div class="flex items-center gap-1">
+                    <span class="rounded-full bg-green-400 p-1 inline-block" style="max-height: 2px; max-width: 2px;"></span>
+                    <p class="text-gray-600 font-semibold">{{ requestsQuotesCount }}</p>
+                  </div>
+                  <div class="flex items-center gap-1">
+                    <span class="rounded-full bg-blue-400 p-1 inline-block" style="max-height: 2px; max-width: 2px;"></span>
+                    <p class="text-gray-600 font-semibold">{{ requestsWithOtherAnswers }}</p>
+                  </div>
+                  <div class="flex items-center gap-1">
+                    <span class="rounded-full bg-gray-400 p-1 inline-block" style="max-height: 2px; max-width: 2px;"></span>
+                    <p class="text-gray-600 font-semibold">{{ requestsUnquotesCount }}</p>
+                  </div>
+                  <div class="flex items-center gap-1" *ngIf="userRole === Role.ADMIN">
+                    <span class="rounded-full bg-yellow-400 p-1 inline-block" style="max-height: 2px; max-width: 2px;"></span>
+                    <p class="text-gray-600 font-semibold">{{ requestsExpiredsCount }}</p>
+                  </div>
+                </div>
+              </div>
+            </button>
+          </a>
+        </div>
+      </div>
+    </main>
+    <app-footer></app-footer>
+  </div>
+</div>

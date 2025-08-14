@@ -1,0 +1,15 @@
+model User {
+  id          String    @id @default(uuid())
+  name        String
+  email       String    @unique(map: "email") @db.VarChar(199)
+  phone       String?   @db.VarChar(30)
+  password    String
+  provider_id String?
+  role        String    @default("user") @db.VarChar(10)
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @updatedAt
+  provider    Provider? @relation(fields: [provider_id], references: [id])
+
+  @@index([provider_id], map: "ZIC_ADM_USERS_provider_id_fkey")
+  @@map("ZIC_ADM_USERS")
+}

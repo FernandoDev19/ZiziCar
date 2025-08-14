@@ -1,0 +1,13 @@
+model ZIC_REQ_ANSWERS {
+  id                String   @id @default(dbgenerated("(uuid())"))
+  request_id        String
+  renter_id         String
+  answer_type       String   @db.VarChar(50)
+  category          String?  @db.VarChar(100)
+  created_at        DateTime @default(now()) @db.Timestamp(0)
+  ZIC_ADM_PROVIDERS Provider @relation(fields: [renter_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "fs_provider_answer")
+  ZIC_REQ_REQUESTS  Request  @relation(fields: [request_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "fs_request_answer")
+
+  @@index([renter_id], map: "fs_provider_answer")
+  @@index([request_id], map: "fs_request_answer")
+}

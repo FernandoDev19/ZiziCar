@@ -1,0 +1,33 @@
+@if(comments && comments.length > 0){
+<div class="py-10 px-3 bg-primary md:bg-lightGray">
+  <h2 class="text-white md:text-lettersGray text-extrabold-italic text-xl md:text-3xl text-center mb-5">
+    Comentarios
+  </h2>
+
+  <p-carousel
+    [value]="comments"
+    [numVisible]="numVisible"
+    [circular]="true"
+    [numScroll]="1"
+    autoplayInterval="2000"
+  >
+    <ng-template let-comment #item>
+      <div class="rounded-3xl m-2 p-3 bg-white">
+        <div class="flex gap-3">
+          <div
+            style="height: 30px; width: 30px"
+            class="flex justify-center items-center rounded-full bg-primary"
+          >
+            <fa-icon [icon]="faUser" class="text-white text-sm"></fa-icon>
+          </div>
+          <h3 class="text-lettersGray font-extrabold">{{ comment.username }}</h3>
+        </div>
+        <div class="p-2 text-lettersGray text-sm">
+          {{ comment.user_commentary }}
+        </div>
+        <div class="flex gap-1">calificacion</div>
+      </div>
+    </ng-template>
+  </p-carousel>
+</div>
+}
