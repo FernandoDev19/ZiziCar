@@ -1,15 +1,15 @@
 import { Component, ViewChild } from '@angular/core';
-import { RequestFormComponent } from "./request-form/request-form.component";
-import { ResumeComponent } from "./resume/resume.component";
-import { WhyUsComponent } from "./why-us/why-us.component";
-import { AlliesComponent } from "./allies/allies.component";
-import { AvailableCitiesComponent } from "./available-cities/available-cities.component";
-import { FaqComponent } from "./faq/faq.component";
-import { GammaExamplesComponent } from "./gamma-examples/gamma-examples.component";
-import { NatureCareComponent } from "./nature-care/nature-care.component";
-import { PutItToWorkComponent } from "./put-it-to-work/put-it-to-work.component";
-import { NewsComponent } from "./news/news.component";
-import { OtherServicesComponent } from "./other-services/other-services.component";
+import { RequestFormComponent } from "./components/request-form/request-form.component";
+import { ResumeComponent } from "./components/resume/resume.component";
+import { WhyUsComponent } from "./components/why-us/why-us.component";
+import { AlliesComponent } from "./components/allies/allies.component";
+import { AvailableCitiesComponent } from "./components/available-cities/available-cities.component";
+import { FaqComponent } from "./components/faq/faq.component";
+import { GammaExamplesComponent } from "./components/gamma-examples/gamma-examples.component";
+import { NatureCareComponent } from "./components/nature-care/nature-care.component";
+import { PutItToWorkComponent } from "./components/put-it-to-work/put-it-to-work.component";
+import { NewsComponent } from "./components/news/news.component";
+import { OtherServicesComponent } from "./components/other-services/other-services.component";
 
 @Component({
   selector: 'app-landingpage',

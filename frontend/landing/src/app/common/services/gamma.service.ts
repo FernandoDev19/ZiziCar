@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { GetGammaInterface } from '../interfaces/gamma.interface';
 import { catchError, Observable, throwError } from 'rxjs';
-import { environment } from '../../../environments/environment';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'

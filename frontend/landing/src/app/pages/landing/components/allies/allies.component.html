@@ -1,0 +1,34 @@
+@defer(on viewport; on idle) {
+  <div class="bg-secondary px-3 py-10">
+    <h2 class="text-white text-extrabold-italic text-xl md:text-3xl text-center mb-10">
+      Conectándote con las mayores marcas en alquiler de autos
+    </h2>
+    <p-carousel
+      [value]="allies"
+      [numVisible]="numVisible"
+      [circular]="true"
+      [numScroll]="1"
+      autoplayInterval="3000"
+    >
+      <ng-template let-allie #item>
+        <div class="rounded-xl my-2 p-1 mx-1 md:mx-auto" style="max-height: 80px; max-width: 100px;" [style]="allie.style">
+          <a [href]="allie.link" target="_blank">
+            <div class="relative">
+              <img
+                loading="lazy"
+                [ngSrc]="allie.img"
+                alt="logo aliado"
+                class="w-full rounded-md hover:scale-110 transition-all duration-200"
+                height="40"
+                width="60"
+              />
+            </div>
+          </a>
+        </div>
+      </ng-template>
+    </p-carousel>
+  </div>  
+}
+@placeholder {
+  <div></div>
+}

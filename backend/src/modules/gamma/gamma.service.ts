@@ -23,14 +23,21 @@ export class GammaService {
   }
   
   async getAveragePrices() {
+    // 1. Traer todas las gamas (precio base)
+    const gammas = await this.prisma.gamma.findMany({
+      select: {
+        id: true,
+        precio_promedio: true,
+      },
+    });
+  
+    // 2. Traer las últimas cotizaciones
     const quotes = await this.prisma.zIC_ADM_QUOTES.findMany({
       include: {
         ZIC_REQ_REQUESTS: {
           include: {
             gamma: {
-              select: {
-                precio_promedio: true,
-              },
+              select: { id: true, precio_promedio: true },
             },
           },
         },
@@ -42,16 +49,12 @@ export class GammaService {
       take: 100,
     });
   
-    if (!quotes || quotes.length === 0) {
-      throw new NotFoundException('Quotes not found');
-    }
-  
+    // 3. Agrupar cotizaciones por gamma_id
     const gammaMap = new Map<string, any[]>();
   
-    // Agrupar las cotizaciones por `gamma_id`
     quotes.forEach((quote) => {
       const request = quote.ZIC_REQ_REQUESTS;
-      if (request && request.gamma_id) {
+      if (request?.gamma_id) {
         if (!gammaMap.has(request.gamma_id)) {
           gammaMap.set(request.gamma_id, []);
         }
@@ -62,32 +65,38 @@ export class GammaService {
             rent: quote.rent,
             entry_date: request.entry_date,
             devolution_date: request.devolution_date,
-            precio_promedio: request.gamma?.precio_promedio?.toNumber() ?? 0,
           });
         }
       }
     });
   
-    // Calcular el promedio de los valores diarios para cada gama
-    const preciosPromedio = Array.from(gammaMap.entries()).map(([gammaId, gammaQuotes]) => {
-      // Calcular el valor por día de cada cotización
-      const totalDailyValues = gammaQuotes.reduce((acc, quote) => {
-        const diasDeRenta = this.getDaysOfRent(quote.entry_date, quote.devolution_date);
-        if (diasDeRenta > 0) {
-          const dailyPrice = quote.rent / diasDeRenta;
-          acc.total += dailyPrice;
-          acc.count += 1;
-        }
-        return acc;
-      }, { total: 0, count: 0 });
+    // 4. Calcular precios promedio, incluyendo fallback
+    const preciosPromedio = gammas.map((gamma) => {
+      const gammaQuotes = gammaMap.get(gamma.id) || [];
   
-      // Calcular el promedio de los valores diarios para esa gama
-      const averageDailyPrice = totalDailyValues.count > 0 ? totalDailyValues.total / totalDailyValues.count : 0;
+      if (gammaQuotes.length > 0) {
+        // Hay cotizaciones recientes → calcular promedio real
+        const totalDailyValues = gammaQuotes.reduce(
+          (acc, quote) => {
+            const diasDeRenta = this.getDaysOfRent(quote.entry_date, quote.devolution_date);
+            if (diasDeRenta > 0) {
+              const dailyPrice = quote.rent / diasDeRenta;
+              acc.total += dailyPrice;
+              acc.count += 1;
+            }
+            return acc;
+          },
+          { total: 0, count: 0 },
+        );
   
-      return {
-        gammaId,
-        averagePrice: averageDailyPrice,
-      };
+        const averageDailyPrice =
+          totalDailyValues.count > 0 ? totalDailyValues.total / totalDailyValues.count : gamma.precio_promedio?.toNumber() ?? 0;
+  
+        return { gammaId: gamma.id, averagePrice: averageDailyPrice };
+      } else {
+        // ❌ No hay cotizaciones → usar el precio_promedio
+        return { gammaId: gamma.id, averagePrice: gamma.precio_promedio?.toNumber() ?? 0 };
+      }
     });
   
     return preciosPromedio;

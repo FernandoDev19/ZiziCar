@@ -4,7 +4,7 @@ import { CreateGammaDto } from './dto/create-gamma.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiTags, ApiConsumes, ApiBody } from '@nestjs/swagger';
 import { S3Service } from 'src/core/services/s3.service';
-import { Role } from 'src/common/enums/role.enum';
+import { Role } from 'src/core/enums/role.enum';
 import { Auth } from '../auth/decorators/auth.decorator';
 
 @ApiTags('gamma')

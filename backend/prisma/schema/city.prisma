@@ -1,6 +1,0 @@
-model City {
-  id   String @id @default(uuid())
-  name String
-
-  @@map("ZIC_REQ_CITIES")
-}

@@ -3,7 +3,7 @@ import { MailerService } from '@nestjs-modules/mailer';
 import { CreateRequestDto } from '../../modules/requests/dto/create-request.dto';
 import { PrismaRelationsService } from 'src/core/services/prisma-relations.service';
 import { GetRequestDataInterface } from 'src/modules/requests/interfaces/request-data.interface';
-import { Role } from 'src/common/enums/role.enum';
+import { Role } from 'src/core/enums/role.enum';
 import { GetDetailsOfReservation } from '../queues/mail-queue/models/get-details.model';
 
 @Injectable()

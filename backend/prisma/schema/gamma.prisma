@@ -1,6 +1,6 @@
 model Gamma {
   id              String    @id @default(uuid())
-  name            String
+  name            String    @unique
   image_url       String
   precio_promedio Decimal   @db.Decimal(10, 0)
   requests        Request[]

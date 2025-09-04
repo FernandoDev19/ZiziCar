@@ -1,0 +1,149 @@
+<div
+  [ngClass]="dataForResume?.gamma?.image && dataForResume?.transmission?.name && isShowingContactForm ? 'md:flex-row' : 'md:flex-row-reverse'"
+  [class.gap-6]="dataForResume?.gamma?.image"
+  [class.!pr-0]="dataForResume?.gamma?.image"
+  class="flex flex-col items-center justify-center max-h-content md:py-10 md:px-0 lg:px-10 min-h-[520px]"
+>
+  <div
+    [ngClass]="{
+      'opacity-0 max-h-0 absolute -z-1': dataForResume?.gamma?.image || isMobile
+    }"
+    class="flex w-full md:w-2/5 items-end justify-center bg-lightGray dark:bg-transparent md:bg-transparent pt-8 md:p-0 transition-all duration-300 ease-in"
+  >
+    <img
+      ngSrc="https://imagenes-publicas-zzcr-s3.s3.us-east-1.amazonaws.com/landing-imgs/bienvenida-min.webp"
+      width="307"
+      [class.hidden]="dataForResume?.gamma?.image || isMobile"
+      height="384"
+      priority="high"
+      class="h-full w-full max-w-96 object-fit"
+    />
+  </div>
+
+  @defer(when dataForResume?.gamma?.image) {
+    <div
+    class="bg-secondary p-10 relative max-w-1/2 md:w-[28rem] lg:w-[40rem]"
+    id="resumeForPC"
+    [class.hidden]="!dataForResume?.gamma?.image || isMobile"
+    [ngClass]="dataForResume?.gamma?.image && dataForResume?.transmission?.name && isShowingContactForm ? 'showResumeWithAnimationReverse' : 'showResumeWithAnimation'"
+  >
+    <img
+      [src]="dataForResume?.gamma?.image"
+      alt="Imagen del vehículo"
+      class="mx-auto object-fit mb-4 bg-white rounded-3xl p-3"
+    />
+    <p class="font-extrabold text-white md:text-gray-200 mb-3 text-center">
+      Precio promedio:
+    </p>
+    <p class="text-extrabold-italic text-4xl text-white text-center mb-3">
+      {{
+        dataForResume?.gamma?.average_price || 0 > 0
+          ? (dataForResume?.gamma?.average_price
+            | currency : "COP" : "symbol" : "1.0-0")
+          : "Calculando..."
+      }}
+    </p>
+    <p class='w-full text-base rounded-full px-3 py-2 bg-primary text-white text-center mb-3'>
+      Este puede variar según ciudad,<br class="md:hidden"> fecha y tiempo de alquiler.
+    </p>
+    @if(dataForResume?.gamma?.image && dataForResume?.transmission?.name && isShowingContactForm){
+      <div>
+        <div class="flex gap-2">
+          <div class="text-white w-1/2 mb-3">
+            <p class="font-extrabold text-sm">Gama</p>
+            <p class="text-xs">{{ dataForResume?.gamma?.name }}</p>
+          </div>
+          <div class="text-white w-1/2 mb-3">
+            <p class="font-extrabold text-sm">Tipo de transmisión</p>
+            <p class="text-xs">{{ dataForResume?.transmission?.name }}</p>
+          </div>
+        </div>
+        <div class="flex gap-2">
+          <div class="text-white w-1/2 mb-3">
+            <p class="font-extrabold text-sm">Ciudad y<br />fecha de retiro</p>
+            <p class="text-xs">{{ dataForResume?.entry?.city }}{{ dataForResume?.entry?.receive_at_airport ? ' en aeropuerto' : '' }}</p>
+            <p class="text-xs">{{ dataForResume?.entry?.dateTime }}</p>
+          </div>
+          <div class="text-white w-1/2">
+            <p class="font-extrabold text-sm">Ciudad y<br />fecha de devolución</p>
+            <p class="text-xs">{{ dataForResume?.devolution?.city }}{{ dataForResume?.devolution?.returns_at_airport ? ' en aeropuerto' : '' }}</p>
+            <p class="text-xs">{{ dataForResume?.devolution?.dateTime }}</p>
+          </div>
+        </div>
+        <div class="w-full flex justify-center mt-3">
+          <button
+            class="bg-transparent border border-white hover:text-lettersGray hover:bg-white px-5 py-2 text-white rounded-full"
+            (click)="goToModify()"
+          >
+            Modificar
+          </button>
+        </div>
+      </div>
+    }
+  </div>
+  }
+
+  <div class="w-5/6 md:w-4/6 lg:w-3/6 md:min-w-15 py-3 md:px-3 text-center">
+    <h2
+      [ngClass]="{ hidden: isShowingContactForm }"
+      class="text-secondary typed"
+      #typed
+    ></h2>
+    <h2
+      [ngClass]="{ hidden: isShowingContactForm }"
+      class="text-3xl md:text-4xl font-extrabold text-secondary text-extrabold-italic"
+    >
+      Tu tienes el control
+    </h2>
+    @if(dataForResume?.gamma?.image && isMobile && !isShowingContactForm){
+    <div class="flex flex-col items-center mb-3">
+      <img
+        [ngSrc]="dataForResume?.gamma?.image || ''"
+        width="200"
+        height="200"
+        alt="Imagen del vehículo"
+        class="max-w-full object-contain mb-4 dark:bg-neutral-300 dark:rounded-md dark:p-3 dark:mt-3 w-full"
+      />
+      <p class="font-bold text-neutral-700 dark:text-neutral-200 md:text-gray-200">
+        Precio promedio:
+        {{
+          dataForResume?.gamma?.average_price || 0 > 0
+            ? (dataForResume?.gamma?.average_price
+              | currency : "COP" : "symbol" : "1.0-0")
+            : "Calculando..."
+        }}
+      </p>
+      <small class="text-gray-500 md:text-neutral-400 dark:text-neutral-400 text-center">
+        Este puede variar según ciudad, fecha y tiempo de alquiler.
+      </small>
+    </div>
+    }@else {
+    <p
+      [ngClass]="{ 'hidden': isShowingContactForm }"
+      class="text-lg md:text-xl text-lettersGray dark:text-neutral-400 text-medium-italic mb-3 md:mb-6"
+    >
+      Solicita, recibe propuestas, compara <br />
+      entre rentadoras y elige tu mejor opción
+    </p>
+    }
+    <app-vehicle-form
+      #vehicleFormComponent
+      class="transition-opacity duration-500 ease-in-out"
+      [ngClass]="{
+        'opacity-0 pointer-events-none z-0 absolute left-0 top-0':
+          isShowingContactForm,
+        'opacity-100 z-1': !isShowingContactForm
+      }"
+      (next)="toggleContactForm()"
+    ></app-vehicle-form>
+
+    <app-contact-form
+      #contactFormComponent
+      class="transition-opacity duration-500 ease-in-out opacity-0 z-0 absolute left-0 top-0 pointer-events-none"
+      [ngClass]="{
+        'opacity-100 pointer-events-auto z-1 !static': isShowingContactForm
+      }"
+      (createRequest)="save()"
+    ></app-contact-form>
+  </div>
+</div>

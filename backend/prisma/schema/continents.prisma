@@ -1,5 +1,5 @@
 model ZIC_ADM_CONTINENTS {
   id                Int                 @id @default(autoincrement())
-  name              String              @db.VarChar(50)
+  name              String              @unique @db.VarChar(50)
   ZIC_ADM_COUNTRIES ZIC_ADM_COUNTRIES[]
 }

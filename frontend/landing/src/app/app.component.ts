@@ -1,26 +1,31 @@
 import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
-import { AlertComponent } from './components/alert/alert.component';
-import { FooterComponent } from "./components/footer/footer.component";
-import { NavComponent } from "./components/header/nav/nav.component";
+import { FooterComponent } from "./common/layout/footer/footer.component";
 import { LoadingService } from './common/services/loading.service';
+import { Observable } from 'rxjs';
+import { NavComponent } from "./common/layout/header/nav/nav.component";
+import { AlertComponent } from "./common/layout/alert/alert.component";
 
 @Component({
   selector: 'app-root',
-  imports: [AlertComponent, RouterOutlet, FooterComponent, NavComponent],
+  standalone: true,
+  imports: [RouterOutlet, FooterComponent, AsyncPipe, NavComponent, AlertComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
 export class AppComponent implements OnInit {
   private loadingService: LoadingService = inject(LoadingService);
 
-  loading$ = this.loadingService.loading$;
+  loading$!: Observable<boolean>;
 
   constructor(
     private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
+    this.loading$ = this.loadingService.loading$;
+    
     const esLocale = {
       firstDayOfWeek: 1,
       dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],

@@ -2,10 +2,8 @@ import { Controller, Get, Post, Body, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
-import { Role } from '../../common/enums/role.enum';
-import { Auth } from './decorators/auth.decorator';
-import { ActiveUser } from 'src/common/decorators/active-user.decorator';
-import { UserActiveInterface } from 'src/common/interfaces/active-user.interface';
+import { ActiveUser } from 'src/core/decorators/active-user.decorator';
+import { UserActiveInterface } from 'src/core/interfaces/active-user.interface';
 import { AuthGuard } from './guards/auth.guard';
 
 @Controller('auth')

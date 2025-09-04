@@ -3,9 +3,9 @@ import { ProvidersService } from './providers.service';
 import { CreateProviderDto } from './dto/create-provider.dto';
 import { UpdateProviderDto } from './dto/update-provider.dto';
 import { Auth } from '../auth/decorators/auth.decorator';
-import { Role } from 'src/common/enums/role.enum';
-import { ActiveUser } from 'src/common/decorators/active-user.decorator';
-import { UserActiveInterface } from 'src/common/interfaces/active-user.interface';
+import { Role } from 'src/core/enums/role.enum';
+import { ActiveUser } from 'src/core/decorators/active-user.decorator';
+import { UserActiveInterface } from 'src/core/interfaces/active-user.interface';
 
 @Controller('providers')
 export class ProvidersController {

@@ -3,8 +3,8 @@ import { CreateProviderDto } from './dto/create-provider.dto';
 import { UpdateProviderDto } from './dto/update-provider.dto';
 import { PrismaService } from 'src/prisma.service';
 import { Prisma } from '@prisma/client';
-import { UserActiveInterface } from 'src/common/interfaces/active-user.interface';
-import { Role } from 'src/common/enums/role.enum';
+import { UserActiveInterface } from 'src/core/interfaces/active-user.interface';
+import { Role } from 'src/core/enums/role.enum';
 import { QuotesService } from '../quotes/quotes.service';
 import { AnswersService } from '../answers/answers.service';
 

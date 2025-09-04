@@ -3,8 +3,8 @@ import { MetaService } from 'src/core/services/meta.service';
 import { QuoteData } from './interfaces/quote-data.interface';
 import { CreateQuoteDto } from './dto/create-quote.dto';
 import { PrismaService } from 'src/prisma.service';
-import { UserActiveInterface } from 'src/common/interfaces/active-user.interface';
-import { Role } from 'src/common/enums/role.enum';
+import { UserActiveInterface } from 'src/core/interfaces/active-user.interface';
+import { Role } from 'src/core/enums/role.enum';
 import { Prisma } from '@prisma/client';
 
 @Injectable()

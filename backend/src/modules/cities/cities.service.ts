@@ -1,13 +1,13 @@
 import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { Prisma } from '@prisma/client';
-import { UserActiveInterface } from 'src/common/interfaces/active-user.interface';
+import { UserActiveInterface } from 'src/core/interfaces/active-user.interface';
 
 @Injectable()
 export class CitiesService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(user: UserActiveInterface, createCityDto: Prisma.CityCreateInput) {
+  async create(user: UserActiveInterface, createCityDto: Prisma.ZIC_ADM_GLOBAL_CITIESCreateInput) {
     if(user.role != user.role){
       throw new UnauthorizedException();
     }
@@ -18,17 +18,17 @@ export class CitiesService {
       throw new BadRequestException('City already exist');
     }
 
-    return await this.prisma.city.create({
+    return await this.prisma.zIC_ADM_GLOBAL_CITIES.create({
       data: createCityDto,
     });
   }
 
   async findAll() {
-    return await this.prisma.city.findMany();
+    return await this.prisma.zIC_ADM_GLOBAL_CITIES.findMany();
   }
 
   private async findOneByName(name: string){
-    const city = this.prisma.city.findFirst({
+    const city = this.prisma.zIC_ADM_GLOBAL_CITIES.findFirst({
       where: {
         name: name
       }
@@ -41,8 +41,8 @@ export class CitiesService {
     return city;
   }
 
-  async findOne(id: string) {
-    const city = await this.prisma.city.findUnique({
+  async findOne(id: number) {
+    const city = await this.prisma.zIC_ADM_GLOBAL_CITIES.findUnique({
       where: {
         id: id,
       },

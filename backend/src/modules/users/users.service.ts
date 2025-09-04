@@ -1,8 +1,8 @@
 import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UserActiveInterface } from 'src/common/interfaces/active-user.interface';
-import { Role } from 'src/common/enums/role.enum';
+import { UserActiveInterface } from 'src/core/interfaces/active-user.interface';
+import { Role } from 'src/core/enums/role.enum';
 import * as bcryptjs from 'bcryptjs';
 
 @Injectable()

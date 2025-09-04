@@ -1,0 +1,74 @@
+@defer (on viewport; on idle) {
+<div
+  class="bg-lightGray dark:bg-neutral-900 rounded-t-xl md:rounded-none py-8 md:py-10 px-3"
+>
+  <div
+    class="md:bg-white dark:bg-neutral-800 mx-auto md:py-5 md:px-20 md:rounded-3xl md:shadow-lg md:w-4/6 md:max-w-4/6"
+  >
+    <h2 class="text-extrabold-italic text-2xl md:text-4xl text-center mb-5">
+      <span class="text-primary">Preguntas </span>
+      <span class="text-secondary">frecuentes</span>
+    </h2>
+
+    <div class="w-full flex justify-center">
+      <div
+        class="border border-gray-400 mb-5 rounded-lg w-5/6 flex focus-within:border-primary md:focus-within:border-white focus-within:ring-2 focus-within:ring-primary transition-ring duration-300 ease"
+      >
+        <input
+          (input)="searchFaq($event)"
+          id="search-faq"
+          type="text"
+          class="w-full px-3 py-2 focus-visible:outline-none bg-transparent"
+          placeholder="Buscar por palabras clave..."
+        />
+        <label for="search-faq" class="px-3 py-2 text-primary"
+          ><fa-icon [icon]="faSearch"></fa-icon
+        ></label>
+      </div>
+    </div>
+
+    <div class="flex flex-col items-center">
+      <ul
+        id="faq-container"
+        class="list-none text-lettersGray dark:text-neutral-400 mb-3 w-full"
+      >
+        @for(question of getFaq; track $index; let i = $index){
+        <li class="mb-2 flex flex-col gap-3">
+          <button
+            (click)="showAnswer(i)"
+            class="flex justify-between gap-20 text-start w-full py-1 px-2 hover:bg-gray-200 dark:hover:bg-neutral-700 rounded-md"
+          >
+            {{ question.label }}
+            <strong class="text-primary">{{
+              question.isShowingAnswer ? "-" : "+"
+            }}</strong>
+          </button>
+          <p
+            [ngClass]="
+              question.isShowingAnswer
+                ? 'opacity-1 max-h-96'
+                : 'opacity-0 max-h-0'
+            "
+            [style]="
+              question.isShowingAnswer ? 'line-height: 1;' : 'line-height: 0;'
+            "
+            class="text-gray-400 dark:text-neutral-400 transition-all duration-150 ease-in px-5"
+          >
+            {{ question.answer }}
+          </p>
+        </li>
+        }
+      </ul>
+
+      <button
+        (click)="toggleShowMore()"
+        class="bg-secondary text-white text-sm py-1 px-3 rounded-full"
+      >
+        {{ showAllFaq ? "Ver menos" : "Ver más" }}
+      </button>
+    </div>
+  </div>
+</div>
+} @placeholder {
+<div></div>
+}

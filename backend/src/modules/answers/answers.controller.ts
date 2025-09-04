@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { AnswersService } from './answers.service';
 import { CreateAnswerDto } from './dto/create-answer.dto';
 import { Auth } from '../auth/decorators/auth.decorator';
-import { Role } from 'src/common/enums/role.enum';
+import { Role } from 'src/core/enums/role.enum';
 
 @Controller('answers')
 export class AnswersController {

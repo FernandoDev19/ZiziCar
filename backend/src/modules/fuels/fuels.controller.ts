@@ -3,7 +3,7 @@ import { FuelsService } from './fuels.service';
 import { CreateFuelDto } from './dto/create-fuel.dto';
 import { UpdateFuelDto } from './dto/update-fuel.dto';
 import { Auth } from '../auth/decorators/auth.decorator';
-import { Role } from 'src/common/enums/role.enum';
+import { Role } from 'src/core/enums/role.enum';
 
 @Controller('fuels')
 export class FuelsController {

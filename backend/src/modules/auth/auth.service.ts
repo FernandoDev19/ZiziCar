@@ -8,9 +8,9 @@ import { UsersService } from '../users/users.service';
 import * as bcryptjs from 'bcryptjs';
 import { LoginDto } from './dto/login.dto';
 import { JwtService } from '@nestjs/jwt';
-import { UserActiveInterface } from 'src/common/interfaces/active-user.interface';
+import { UserActiveInterface } from 'src/core/interfaces/active-user.interface';
 import { PrismaService } from 'src/prisma.service';
-import { Role } from 'src/common/enums/role.enum';
+import { Role } from 'src/core/enums/role.enum';
 
 @Injectable()
 export class AuthService {

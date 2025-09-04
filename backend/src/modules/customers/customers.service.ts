@@ -2,8 +2,8 @@ import { BadRequestException, Injectable, NotFoundException, UnauthorizedExcepti
 import { CreateCustomerDto } from './dto/create-customer.dto';
 import { UpdateCustomerDto } from './dto/update-customer.dto';
 import { PrismaService } from 'src/prisma.service';
-import { UserActiveInterface } from 'src/common/interfaces/active-user.interface';
-import { Role } from 'src/common/enums/role.enum';
+import { UserActiveInterface } from 'src/core/interfaces/active-user.interface';
+import { Role } from 'src/core/enums/role.enum';
 import { Prisma } from '@prisma/client';
 import { GetDetailsOfReservation } from 'src/core/queues/mail-queue/models/get-details.model';
 

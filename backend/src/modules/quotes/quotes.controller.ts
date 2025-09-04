@@ -1,10 +1,10 @@
 import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { QuotesService } from './quotes.service';
 import { CreateQuoteDto } from './dto/create-quote.dto';
-import { Role } from 'src/common/enums/role.enum';
+import { Role } from 'src/core/enums/role.enum';
 import { Auth } from '../auth/decorators/auth.decorator';
-import { ActiveUser } from 'src/common/decorators/active-user.decorator';
-import { UserActiveInterface } from 'src/common/interfaces/active-user.interface';
+import { ActiveUser } from 'src/core/decorators/active-user.decorator';
+import { UserActiveInterface } from 'src/core/interfaces/active-user.interface';
 
 @Controller('quotes')
 export class QuotesController {

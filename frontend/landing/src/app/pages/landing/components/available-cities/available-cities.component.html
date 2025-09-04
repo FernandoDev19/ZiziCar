@@ -1,0 +1,17 @@
+@defer (on viewport; on idle) {
+  <div class="py-5 md:py-10 px-3 md:bg-lightGray dark:bg-neutral-900">
+    <h2 class="text-lettersGray dark:text-neutral-400 text-extrabold-italic text-xl md:text-3xl text-center mb-10">Ciudades disponibles para alquilar
+      carro en Colombia</h2>
+      <div id="cities-container" class="gap-2 md:gap-4">
+        @for(city of availableCities; track city.name){
+          <div class="bg-secondary rounded-3xl w-max mx-auto">
+            <img height="240" width="240" priority="low" class="h-40 w-40 md:h-60 md:w-60" [ngSrc]="city.img">
+            <p class="p-3 text-center m-0 text-gray-100 font-bold">{{ city.name }}</p>
+          </div>
+        }
+      </div>
+  </div>  
+}
+@placeholder {
+  <div></div>
+}

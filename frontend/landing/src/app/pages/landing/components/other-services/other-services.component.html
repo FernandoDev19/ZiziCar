@@ -1,0 +1,45 @@
+<div class="py-5 px-3 bg-lightGray dark:bg-neutral-900">
+  <div class="flex flex-col md:flex-row md:justify-evenly gap-5 items-center">
+    <div class="flex flex-col items-center">
+      <img
+        class="w-3/6 md:w-60"
+        ngSrc="https://imagenes-publicas-zzcr-s3.s3.us-east-1.amazonaws.com/encuentra-vehiculo-perfecto.webp"
+        priority="low"
+        height="200"
+        width="240"
+      />
+      <h2
+        class="text-lettersGray dark:text-neutral-400 text-extrabold-italic text-xl text-center mb-1"
+      >
+        Encuentra el vehículo perfecto para tu aventura
+      </h2>
+      <button
+        (click)="scrollToForm()"
+        class="bg-primary text-white font-bold rounded-full px-6 py-2 mb-10"
+      >
+        Reserva un carro
+      </button>
+    </div>
+    <div class="flex flex-col items-center">
+      <img
+        class="w-5/6 md:w-80"
+        ngSrc="https://imagenes-publicas-zzcr-s3.s3.us-east-1.amazonaws.com/lanza-tu-negocio.webp"
+        priority="low"
+        height="200"
+        width="320"
+      />
+      <h2
+        class="text-lettersGray dark:text-neutral-400 text-extrabold-italic text-xl text-center mb-1"
+      >
+        Lanza tu propio negocio y comienza a ganar
+      </h2>
+      <a href="https://wa.me/573160547464?text=Hola%20ZiziCar,%20Quiero%20alquilar%20un%20carro." target="_blank">
+        <button
+          class="bg-secondary text-white font-bold rounded-full px-6 py-2 mb-8"
+        >
+          Sé propietario
+        </button>
+      </a>
+    </div>
+  </div>
+</div>

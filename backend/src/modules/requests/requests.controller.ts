@@ -16,10 +16,10 @@ import { MailService } from 'src/core/services/mail.service';
 import { MetaService } from 'src/core/services/meta.service';
 import { ReservationConfirmationData } from 'src/core/interfaces/reservation-confirmation-data.interface';
 import { ProvidersService } from '../providers/providers.service';
-import { UserActiveInterface } from 'src/common/interfaces/active-user.interface';
-import { Role } from 'src/common/enums/role.enum';
+import { UserActiveInterface } from 'src/core/interfaces/active-user.interface';
+import { Role } from 'src/core/enums/role.enum';
 import { Auth } from '../auth/decorators/auth.decorator';
-import { ActiveUser } from 'src/common/decorators/active-user.decorator';
+import { ActiveUser } from 'src/core/decorators/active-user.decorator';
 import { UsersService } from '../users/users.service';
 import { AuthGuard } from '../auth/guards/auth.guard';
 

@@ -9,8 +9,8 @@ import { Prisma } from '@prisma/client';
 import { MetaService } from 'src/core/services/meta.service';
 import { ReservationConfirmationData } from 'src/core/interfaces/reservation-confirmation-data.interface';
 import { ProvidersService } from '../providers/providers.service';
-import { UserActiveInterface } from 'src/common/interfaces/active-user.interface';
-import { Role } from 'src/common/enums/role.enum';
+import { UserActiveInterface } from 'src/core/interfaces/active-user.interface';
+import { Role } from 'src/core/enums/role.enum';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import {

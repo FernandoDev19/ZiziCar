@@ -133,7 +133,7 @@ La API estará disponible en `http://localhost:3000`
 2. Instala las dependencias:
    ```bash
    npm install
-   ```
+   ```  
 
 3. Configura las variables de entorno
 

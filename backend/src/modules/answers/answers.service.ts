@@ -6,7 +6,7 @@ import { MetaService } from 'src/core/services/meta.service';
 
 @Injectable()
 export class AnswersService {
-  constructor(private prismaService: PrismaService, private metaService: MetaService){}
+  constructor(private readonly prismaService: PrismaService, private readonly metaService: MetaService){}
 
   async create(createAnswerDto: CreateAnswerDto) {
     const { request_id, renter_id } = createAnswerDto;

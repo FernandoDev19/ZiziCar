@@ -3,7 +3,7 @@ import { StatesService } from './states.service';
 import { CreateStateDto } from './dto/create-state.dto';
 import { UpdateStateDto } from './dto/update-state.dto';
 import { Auth } from '../auth/decorators/auth.decorator';
-import { Role } from 'src/common/enums/role.enum';
+import { Role } from 'src/core/enums/role.enum';
 
 @Controller('states')
 export class StatesController {

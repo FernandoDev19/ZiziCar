@@ -3,7 +3,7 @@ import { GlobalCitiesService } from './global-cities.service';
 import { CreateGlobalCityDto } from './dto/create-global-city.dto';
 import { UpdateGlobalCityDto } from './dto/update-global-city.dto';
 import { Auth } from '../auth/decorators/auth.decorator';
-import { Role } from 'src/common/enums/role.enum';
+import { Role } from 'src/core/enums/role.enum';
 
 @Controller('global-cities')
 export class GlobalCitiesController {
