@@ -22,7 +22,7 @@ async function bootstrap() {
 
   // Configuración de CORS
   app.enableCors({
-    origin: '*', //['https://zizicar.com', 'https://adm.zizicar.com', 'https://www.zizicar.com'],
+    origin: ['https://zizicar.com', 'https://adm.zizicar.com', 'https://www.zizicar.com'],
     allowedHeaders: 'Content-Type, Authorization',
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
